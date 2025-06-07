@@ -1,4 +1,3 @@
-use async_trait::async_trait;
 use loco_rs::prelude::*;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;

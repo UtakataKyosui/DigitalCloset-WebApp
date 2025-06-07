@@ -49,7 +49,7 @@ async fn update(
 
 /// Delete coordinate by PID
 #[debug_handler]
-async fn delete(State(ctx): State<AppContext>, Path(pid): Path<String>) -> Result<Response> {
+async fn delete_coordinate(State(ctx): State<AppContext>, Path(pid): Path<String>) -> Result<Response> {
     coordinates::Model::delete_by_pid(&ctx.db, &pid).await?;
     format::json(json!({"msg": "Coordinate deleted successfully"}))
 }
@@ -67,7 +67,7 @@ async fn add_clothes(
 
 /// Remove clothes from coordinate
 #[debug_handler]
-async fn remove_clothes(
+async fn remove_clothes_from_coordinate(
     State(ctx): State<AppContext>,
     Path((pid, clothes_id)): Path<(String, i32)>,
 ) -> Result<Response> {
@@ -110,13 +110,13 @@ pub fn routes() -> Routes {
     Routes::new()
         .prefix("/api/coordinates")
         .add("/", post(create))
-        .add("/user/:user_id", get(list_by_user))
-        .add("/:pid", get(get_one))
-        .add("/:pid", put(update))
-        .add("/:pid", delete(delete))
-        .add("/:pid/clothes", post(add_clothes))
-        .add("/:pid/clothes/:clothes_id", delete(remove_clothes))
-        .add("/:pid/clothes/position", put(update_clothes_position))
-        .add("/user/:user_id/season/:season", get(get_by_season))
-        .add("/user/:user_id/favorites", get(get_favorites))
+        .add("/user/{user_id}", get(list_by_user))
+        .add("/{pid}", get(get_one))
+        .add("/{pid}", put(update))
+        .add("/{pid}", delete(delete_coordinate))
+        .add("/{pid}/clothes", post(add_clothes))
+        .add("/{pid}/clothes/{clothes_id}", delete(remove_clothes_from_coordinate))
+        .add("/{pid}/clothes/position", put(update_clothes_position))
+        .add("/user/{user_id}/season/{season}", get(get_by_season))
+        .add("/user/{user_id}/favorites", get(get_favorites))
 }

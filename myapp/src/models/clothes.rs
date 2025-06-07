@@ -1,5 +1,5 @@
-use async_trait::async_trait;
 use loco_rs::prelude::*;
+use sea_orm::prelude::Decimal;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
@@ -94,7 +94,7 @@ impl Model {
             size: ActiveValue::set(params.size.clone()),
             color: ActiveValue::set(params.color.clone()),
             material: ActiveValue::set(params.material.clone()),
-            price: ActiveValue::set(rust_decimal::Decimal::from_f64_retain(params.price)
+            price: ActiveValue::set(Decimal::from_f64_retain(params.price)
                 .ok_or_else(|| ModelError::msg("Invalid price format"))?),
             in_stock: ActiveValue::set(params.in_stock),
             stock_quantity: ActiveValue::set(params.stock_quantity),
@@ -111,11 +111,7 @@ impl Model {
     pub async fn find_by_pid(db: &DatabaseConnection, pid: &str) -> ModelResult<Self> {
         let parse_uuid = Uuid::parse_str(pid).map_err(|e| ModelError::Any(e.into()))?;
         let clothes = clothes::Entity::find()
-            .filter(
-                model::query::condition()
-                    .eq(clothes::Column::Pid, parse_uuid)
-                    .build(),
-            )
+            .filter(clothes::Column::Pid.eq(parse_uuid))
             .one(db)
             .await?;
         clothes.ok_or_else(|| ModelError::EntityNotFound)
@@ -130,11 +126,7 @@ impl Model {
     /// Find clothes by category
     pub async fn find_by_category(db: &DatabaseConnection, category: &str) -> ModelResult<Vec<Self>> {
         let clothes = clothes::Entity::find()
-            .filter(
-                model::query::condition()
-                    .eq(clothes::Column::Category, category)
-                    .build(),
-            )
+            .filter(clothes::Column::Category.eq(category))
             .all(db)
             .await?;
         Ok(clothes)
@@ -171,7 +163,7 @@ impl Model {
             active_model.material = ActiveValue::set(Some(material.clone()));
         }
         if let Some(price) = params.price {
-            active_model.price = ActiveValue::set(rust_decimal::Decimal::from_f64_retain(price)
+            active_model.price = ActiveValue::set(Decimal::from_f64_retain(price)
                 .ok_or_else(|| ModelError::msg("Invalid price format"))?);
         }
         if let Some(in_stock) = params.in_stock {

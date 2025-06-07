@@ -1,5 +1,5 @@
 use async_trait::async_trait;
-use chrono::{offset::Local, Duration};
+use chrono::offset::Local;
 use loco_rs::{auth::jwt, hash, prelude::*};
 use serde::{Deserialize, Serialize};
 use serde_json::Map;
@@ -7,8 +7,6 @@ use uuid::Uuid;
 
 pub use super::_entities::users::{self, ActiveModel, Entity, Model};
 
-pub const MAGIC_LINK_LENGTH: i8 = 32;
-pub const MAGIC_LINK_EXPIRATION_MIN: i8 = 5;
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct LoginParams {
@@ -95,61 +93,6 @@ impl Model {
         user.ok_or_else(|| ModelError::EntityNotFound)
     }
 
-    /// finds a user by the provided verification token
-    ///
-    /// # Errors
-    ///
-    /// When could not find user by the given token or DB query error
-    pub async fn find_by_verification_token(
-        db: &DatabaseConnection,
-        token: &str,
-    ) -> ModelResult<Self> {
-        let user = users::Entity::find()
-            .filter(
-                model::query::condition()
-                    .eq(users::Column::EmailVerificationToken, token)
-                    .build(),
-            )
-            .one(db)
-            .await?;
-        user.ok_or_else(|| ModelError::EntityNotFound)
-    }
-
-    /// finds a user by the magic token and verify and token expiration
-    ///
-    /// # Errors
-    ///
-    /// When could not find user by the given token or DB query error ot token expired
-    pub async fn find_by_magic_token(db: &DatabaseConnection, token: &str) -> ModelResult<Self> {
-        let user = users::Entity::find()
-            .filter(
-                query::condition()
-                    .eq(users::Column::MagicLinkToken, token)
-                    .build(),
-            )
-            .one(db)
-            .await?;
-
-        let user = user.ok_or_else(|| ModelError::EntityNotFound)?;
-        if let Some(expired_at) = user.magic_link_expiration {
-            if expired_at >= Local::now() {
-                Ok(user)
-            } else {
-                tracing::debug!(
-                    user_pid = user.pid.to_string(),
-                    token_expiration = expired_at.to_string(),
-                    "magic token expired for the user."
-                );
-                Err(ModelError::msg("magic token expired"))
-            }
-        } else {
-            tracing::error!(
-                user_pid = user.pid.to_string(),
-                "magic link expiration time not exists"
-            );
-            Err(ModelError::msg("expiration token not exists"))
-        }
-    }
 
     /// finds a user by the provided reset token
     ///
@@ -265,23 +208,6 @@ impl Model {
 }
 
 impl ActiveModel {
-    /// Sets the email verification information for the user and
-    /// updates it in the database.
-    ///
-    /// This method is used to record the timestamp when the email verification
-    /// was sent and generate a unique verification token for the user.
-    ///
-    /// # Errors
-    ///
-    /// when has DB query error
-    pub async fn set_email_verification_sent(
-        mut self,
-        db: &DatabaseConnection,
-    ) -> ModelResult<Model> {
-        self.email_verification_sent_at = ActiveValue::set(Some(Local::now().into()));
-        self.email_verification_token = ActiveValue::Set(Some(Uuid::new_v4().to_string()));
-        Ok(self.update(db).await?)
-    }
 
     /// Sets the information for a reset password request,
     /// generates a unique reset password token, and updates it in the
@@ -301,19 +227,6 @@ impl ActiveModel {
         Ok(self.update(db).await?)
     }
 
-    /// Records the verification time when a user verifies their
-    /// email and updates it in the database.
-    ///
-    /// This method sets the timestamp when the user successfully verifies their
-    /// email.
-    ///
-    /// # Errors
-    ///
-    /// when has DB query error
-    pub async fn verified(mut self, db: &DatabaseConnection) -> ModelResult<Model> {
-        self.email_verified_at = ActiveValue::set(Some(Local::now().into()));
-        Ok(self.update(db).await?)
-    }
 
     /// Resets the current user password with a new password and
     /// updates it in the database.
@@ -336,32 +249,4 @@ impl ActiveModel {
         Ok(self.update(db).await?)
     }
 
-    /// Creates a magic link token for passwordless authentication.
-    ///
-    /// Generates a random token with a specified length and sets an expiration time
-    /// for the magic link. This method is used to initiate the magic link authentication flow.
-    ///
-    /// # Errors
-    /// - Returns an error if database update fails
-    pub async fn create_magic_link(mut self, db: &DatabaseConnection) -> ModelResult<Model> {
-        let random_str = hash::random_string(MAGIC_LINK_LENGTH as usize);
-        let expired = Local::now() + Duration::minutes(MAGIC_LINK_EXPIRATION_MIN.into());
-
-        self.magic_link_token = ActiveValue::set(Some(random_str));
-        self.magic_link_expiration = ActiveValue::set(Some(expired.into()));
-        Ok(self.update(db).await?)
-    }
-
-    /// Verifies and invalidates the magic link after successful authentication.
-    ///
-    /// Clears the magic link token and expiration time after the user has
-    /// successfully authenticated using the magic link.
-    ///
-    /// # Errors
-    /// - Returns an error if database update fails
-    pub async fn clear_magic_link(mut self, db: &DatabaseConnection) -> ModelResult<Model> {
-        self.magic_link_token = ActiveValue::set(None);
-        self.magic_link_expiration = ActiveValue::set(None);
-        Ok(self.update(db).await?)
-    }
 }

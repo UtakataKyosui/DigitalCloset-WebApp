@@ -43,7 +43,7 @@ async fn update(
 
 /// Delete clothes item by PID
 #[debug_handler]
-async fn delete(State(ctx): State<AppContext>, Path(pid): Path<String>) -> Result<Response> {
+async fn delete_clothes(State(ctx): State<AppContext>, Path(pid): Path<String>) -> Result<Response> {
     clothes::Model::delete_by_pid(&ctx.db, &pid).await?;
     format::json(json!({"msg": "Deleted successfully"}))
 }
@@ -63,8 +63,8 @@ pub fn routes() -> Routes {
         .prefix("/api/clothes")
         .add("/", post(create))
         .add("/", get(list))
-        .add("/:pid", get(get_one))
-        .add("/:pid", put(update))
-        .add("/:pid", delete(delete))
-        .add("/category/:category", get(get_by_category))
+        .add("/{pid}", get(get_one))
+        .add("/{pid}", put(update))
+        .add("/{pid}", delete(delete_clothes))
+        .add("/category/{category}", get(get_by_category))
 }

@@ -38,3 +38,11 @@ impl Related<super::coordinates::Entity> for Entity {
         Some(super::clothes_coordinates::Relation::Clothes.def().rev())
     }
 }
+
+impl Related<super::clothes_coordinates::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::ClothesCoordinates.def()
+    }
+}
+
+

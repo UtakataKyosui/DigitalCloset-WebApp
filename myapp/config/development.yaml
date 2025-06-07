@@ -17,9 +17,9 @@ logger:
 # Web server configuration
 server:
   # Port on which the server will listen. the server binding is 0.0.0.0:{PORT}
-  port: 5150
+  port: 5151
   # Binding for the server (which interface to bind to)
-  binding: localhost
+  binding: 0.0.0.0
   # The UI hostname or IP address that mailers will point to.
   host: http://localhost
   # Out of the box middleware configuration. to disable middleware you can changed the `enable` field to `false` of comment the middleware block
@@ -32,6 +32,25 @@ server:
         uri: "/static"
         path: "assets/static"
       fallback: "assets/static/404.html"
+    cors:
+      enable: true
+      allow_origins:
+        - "http://localhost:3000"
+      allow_headers:
+        - "Content-Type"
+        - "Authorization"
+        - "X-Requested-With"
+        - "X-API-Key"
+        - "X-Client-Version"
+        - "Accept"
+      allow_methods:
+        - "GET"
+        - "POST"
+        - "PUT"
+        - "DELETE"
+        - "OPTIONS"
+      allow_credentials: true
+      max_age: 86400
 
 # Worker Configuration
 workers:
@@ -40,8 +59,6 @@ workers:
   #   - ForegroundBlocking - Workers operate in the foreground and block until tasks are completed.
   #   - BackgroundAsync - Workers operate asynchronously in the background, processing tasks with async capabilities.
   mode: BackgroundAsync
-
-  
 
 # Mailer Configuration.
 mailer:

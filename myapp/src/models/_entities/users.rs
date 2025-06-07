@@ -19,12 +19,17 @@ pub struct Model {
     pub name: String,
     pub reset_token: Option<String>,
     pub reset_sent_at: Option<DateTimeWithTimeZone>,
-    pub email_verification_token: Option<String>,
-    pub email_verification_sent_at: Option<DateTimeWithTimeZone>,
-    pub email_verified_at: Option<DateTimeWithTimeZone>,
-    pub magic_link_token: Option<String>,
-    pub magic_link_expiration: Option<DateTimeWithTimeZone>,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
-pub enum Relation {}
+pub enum Relation {
+    #[sea_orm(has_many = "super::coordinates::Entity")]
+    Coordinates,
+}
+
+impl Related<super::coordinates::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::Coordinates.def()
+    }
+}
+

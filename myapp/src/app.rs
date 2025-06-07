@@ -44,9 +44,10 @@ impl Hooks for App {
     }
 
     async fn initializers(_ctx: &AppContext) -> Result<Vec<Box<dyn Initializer>>> {
-        Ok(vec![Box::new(
-            initializers::view_engine::ViewEngineInitializer,
-        )])
+        Ok(vec![
+            Box::new(initializers::view_engine::ViewEngineInitializer),
+            Box::new(initializers::security::SecurityInitializer),
+        ])
     }
 
     fn routes(_ctx: &AppContext) -> AppRoutes {
@@ -54,7 +55,10 @@ impl Hooks for App {
             .add_route(controllers::auth::routes())
             .add_route(controllers::clothes::routes())
             .add_route(controllers::coordinates::routes())
+            .add_route(controllers::forms::routes())
+            .add_route(controllers::validation::routes())
     }
+
     async fn connect_workers(ctx: &AppContext, queue: &Queue) -> Result<()> {
         queue.register(DownloadWorker::build(ctx)).await?;
         Ok(())

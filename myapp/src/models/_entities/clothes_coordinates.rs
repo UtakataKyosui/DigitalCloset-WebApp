@@ -43,3 +43,5 @@ impl Related<super::coordinates::Entity> for Entity {
         Relation::Coordinates.def()
     }
 }
+
+impl ActiveModelBehavior for ActiveModel {}
