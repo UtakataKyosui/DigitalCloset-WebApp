@@ -1,18 +1,14 @@
 'use client'
 
-import { useState } from 'react'
+import { useForm } from '@conform-to/react'
+import { parseWithZod } from '@conform-to/zod'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { apiService } from '@/lib/api'
-
-interface RegisterFormData {
-  name: string
-  email: string
-  password: string
-  confirmPassword: string
-}
+import { registerSchema, type RegisterFormData } from '@/lib/schemas'
+import { useActionState } from 'react'
 
 interface RegisterFormProps {
   onSuccess?: (response: { token: string; user: { pid: string; name: string; email: string } }) => void
@@ -21,165 +17,139 @@ interface RegisterFormProps {
 }
 
 export function RegisterForm({ onSuccess, onError, onSwitchToLogin }: RegisterFormProps) {
-  const [formData, setFormData] = useState<RegisterFormData>({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  })
+  const [lastResult, action, isPending] = useActionState(async (prevState: any, formData: FormData) => {
+    const submission = parseWithZod(formData, { schema: registerSchema })
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [errors, setErrors] = useState<Record<string, string>>({})
-
-  const validateForm = (): boolean => {
-    const newErrors: Record<string, string> = {}
-
-    if (!formData.name.trim()) {
-      newErrors.name = 'Full name is required'
-    } else if (formData.name.trim().length < 2) {
-      newErrors.name = 'Name must be at least 2 characters'
+    if (submission.status !== 'success') {
+      return submission.reply()
     }
-
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required'
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address'
-    }
-
-    if (!formData.password.trim()) {
-      newErrors.password = 'Password is required'
-    } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters'
-    }
-
-    if (!formData.confirmPassword.trim()) {
-      newErrors.confirmPassword = 'Please confirm your password'
-    } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match'
-    }
-
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
-    if (!validateForm()) {
-      return
-    }
-
-    setIsSubmitting(true)
-    setErrors({})
 
     try {
-      const response = await apiService.register(
-        formData.email.trim(),
-        formData.password,
-        formData.name.trim()
-      )
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: submission.value.email.trim(),
+          password: submission.value.password,
+          name: submission.value.name.trim()
+        })
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error || '登録に失敗しました')
+      }
+
+      const data = await response.json()
       
       // Store token in localStorage for persistence
-      localStorage.setItem('auth_token', response.token)
-      localStorage.setItem('user_pid', response.user.pid)
-      localStorage.setItem('user_name', response.user.name)
+      localStorage.setItem('auth_token', data.token)
+      localStorage.setItem('user_pid', data.user.pid)
+      localStorage.setItem('user_name', data.user.name)
       
-      onSuccess?.(response)
+      onSuccess?.(data)
       
-      // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-      })
+      return submission.reply({ resetForm: true })
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Registration failed'
+      const errorMessage = error instanceof Error ? error.message : '登録に失敗しました'
       onError?.(errorMessage)
-      setErrors({ submit: errorMessage })
-    } finally {
-      setIsSubmitting(false)
+      return submission.reply({
+        formErrors: [errorMessage]
+      })
     }
-  }
+  }, undefined)
 
-  const handleInputChange = (field: keyof RegisterFormData, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }))
-    // Clear error when user starts typing
-    if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: '' }))
-    }
-  }
+  const [form, fields] = useForm({
+    lastResult,
+    onValidate({ formData }) {
+      return parseWithZod(formData, { schema: registerSchema })
+    },
+    shouldValidate: 'onBlur',
+    shouldRevalidate: 'onInput',
+  })
 
   return (
     <Card className="w-full max-w-md mx-auto">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl text-center">Create Account</CardTitle>
+        <CardTitle className="text-2xl text-center">新規登録</CardTitle>
         <CardDescription className="text-center">
-          Enter your information to create a new account
+          アカウント情報を入力してください
         </CardDescription>
       </CardHeader>
       
-      <form onSubmit={handleSubmit}>
+      <form id={form.id} onSubmit={form.onSubmit} action={action} noValidate>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="register-name">Full Name</Label>
+            <Label htmlFor={fields.name.id}>お名前</Label>
             <Input
-              id="register-name"
+              key={fields.name.key}
+              id={fields.name.id}
+              name={fields.name.name}
               type="text"
-              value={formData.name}
-              onChange={(e) => handleInputChange('name', e.target.value)}
-              placeholder="John Doe"
-              className={errors.name ? 'border-red-500' : ''}
-              disabled={isSubmitting}
+              defaultValue={fields.name.initialValue}
+              placeholder="山田太郎"
+              className={fields.name.errors ? 'border-red-500' : ''}
+              disabled={isPending}
             />
-            {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
+            {fields.name.errors && (
+              <p className="text-sm text-red-500">{fields.name.errors[0]}</p>
+            )}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="register-email">Email</Label>
+            <Label htmlFor={fields.email.id}>メールアドレス</Label>
             <Input
-              id="register-email"
+              key={fields.email.key}
+              id={fields.email.id}
+              name={fields.email.name}
               type="email"
-              value={formData.email}
-              onChange={(e) => handleInputChange('email', e.target.value)}
-              placeholder="john@example.com"
-              className={errors.email ? 'border-red-500' : ''}
-              disabled={isSubmitting}
+              defaultValue={fields.email.initialValue}
+              placeholder="example@example.com"
+              className={fields.email.errors ? 'border-red-500' : ''}
+              disabled={isPending}
             />
-            {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
+            {fields.email.errors && (
+              <p className="text-sm text-red-500">{fields.email.errors[0]}</p>
+            )}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="register-password">Password</Label>
+            <Label htmlFor={fields.password.id}>パスワード</Label>
             <Input
-              id="register-password"
+              key={fields.password.key}
+              id={fields.password.id}
+              name={fields.password.name}
               type="password"
-              value={formData.password}
-              onChange={(e) => handleInputChange('password', e.target.value)}
-              placeholder="Choose a strong password"
-              className={errors.password ? 'border-red-500' : ''}
-              disabled={isSubmitting}
+              defaultValue={fields.password.initialValue}
+              placeholder="安全なパスワードを選択"
+              className={fields.password.errors ? 'border-red-500' : ''}
+              disabled={isPending}
             />
-            {errors.password && <p className="text-sm text-red-500">{errors.password}</p>}
+            {fields.password.errors && (
+              <p className="text-sm text-red-500">{fields.password.errors[0]}</p>
+            )}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="register-confirm-password">Confirm Password</Label>
+            <Label htmlFor={fields.password_confirmation.id}>パスワード確認</Label>
             <Input
-              id="register-confirm-password"
+              key={fields.password_confirmation.key}
+              id={fields.password_confirmation.id}
+              name={fields.password_confirmation.name}
               type="password"
-              value={formData.confirmPassword}
-              onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
-              placeholder="Confirm your password"
-              className={errors.confirmPassword ? 'border-red-500' : ''}
-              disabled={isSubmitting}
+              defaultValue={fields.password_confirmation.initialValue}
+              placeholder="パスワードを再入力"
+              className={fields.password_confirmation.errors ? 'border-red-500' : ''}
+              disabled={isPending}
             />
-            {errors.confirmPassword && <p className="text-sm text-red-500">{errors.confirmPassword}</p>}
+            {fields.password_confirmation.errors && (
+              <p className="text-sm text-red-500">{fields.password_confirmation.errors[0]}</p>
+            )}
           </div>
 
-          {errors.submit && (
+          {form.errors && (
             <div className="text-sm text-red-500 bg-red-50 p-3 rounded border border-red-200">
-              {errors.submit}
+              {form.errors[0]}
             </div>
           )}
         </CardContent>
@@ -187,23 +157,23 @@ export function RegisterForm({ onSuccess, onError, onSwitchToLogin }: RegisterFo
         <CardFooter className="flex flex-col space-y-4">
           <Button 
             type="submit" 
-            disabled={isSubmitting}
+            disabled={isPending}
             className="w-full"
           >
-            {isSubmitting ? 'Creating Account...' : 'Create Account'}
+            {isPending ? 'アカウント作成中...' : 'アカウント作成'}
           </Button>
           
           {onSwitchToLogin && (
             <div className="text-center">
               <div className="text-sm text-gray-600">
-                Already have an account?{' '}
+                すでにアカウントをお持ちですか？{' '}
                 <Button
                   type="button"
                   variant="link"
                   className="p-0 h-auto text-blue-600 hover:text-blue-500"
                   onClick={onSwitchToLogin}
                 >
-                  Sign in
+                  ログイン
                 </Button>
               </div>
             </div>

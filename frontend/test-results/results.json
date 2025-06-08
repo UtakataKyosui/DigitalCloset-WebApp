@@ -1,0 +1,1352 @@
+{
+  "config": {
+    "configFile": "/workspaces/frontend/playwright.config.ts",
+    "rootDir": "/workspaces/frontend/tests",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "playwright-report"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/workspaces/frontend/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/workspaces/frontend/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.52.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "auth.spec.ts",
+      "file": "auth.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "認証機能のE2Eテスト",
+          "file": "auth.spec.ts",
+          "line": 17,
+          "column": 6,
+          "specs": [],
+          "suites": [
+            {
+              "title": "新規登録機能",
+              "file": "auth.spec.ts",
+              "line": 26,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "有効な情報での新規登録が成功する",
+                  "ok": false,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [
+                        {
+                          "workerIndex": 0,
+                          "parallelIndex": 0,
+                          "status": "failed",
+                          "duration": 5774,
+                          "error": {
+                            "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('heading', { name: '新規登録' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: '新規登録' })\u001b[22m\n",
+                            "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('heading', { name: '新規登録' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: '新規登録' })\u001b[22m\n\n    at /workspaces/frontend/tests/auth.spec.ts:37:65",
+                            "location": {
+                              "file": "/workspaces/frontend/tests/auth.spec.ts",
+                              "column": 65,
+                              "line": 37
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 35 |\u001b[39m       \n \u001b[90m 36 |\u001b[39m       \u001b[90m// 新規登録フォームが表示されていることを確認\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 37 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'新規登録'\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 38 |\u001b[39m       \n \u001b[90m 39 |\u001b[39m       \u001b[90m// フォーム入力\u001b[39m\n \u001b[90m 40 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByLabel(\u001b[32m'お名前'\u001b[39m)\u001b[33m.\u001b[39mfill(\u001b[33mTEST_USER\u001b[39m\u001b[33m.\u001b[39mname)\u001b[33m;\u001b[39m\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "/workspaces/frontend/tests/auth.spec.ts",
+                                "column": 65,
+                                "line": 37
+                              },
+                              "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('heading', { name: '新規登録' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: '新規登録' })\u001b[22m\n\n\n\u001b[0m \u001b[90m 35 |\u001b[39m       \n \u001b[90m 36 |\u001b[39m       \u001b[90m// 新規登録フォームが表示されていることを確認\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 37 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'新規登録'\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 38 |\u001b[39m       \n \u001b[90m 39 |\u001b[39m       \u001b[90m// フォーム入力\u001b[39m\n \u001b[90m 40 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByLabel(\u001b[32m'お名前'\u001b[39m)\u001b[33m.\u001b[39mfill(\u001b[33mTEST_USER\u001b[39m\u001b[33m.\u001b[39mname)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /workspaces/frontend/tests/auth.spec.ts:37:65\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-06-08T04:10:26.264Z",
+                          "annotations": [],
+                          "attachments": [
+                            {
+                              "name": "screenshot",
+                              "contentType": "image/png",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-新規登録機能-有効な情報での新規登録が成功する-chromium/test-failed-1.png"
+                            },
+                            {
+                              "name": "video",
+                              "contentType": "video/webm",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-新規登録機能-有効な情報での新規登録が成功する-chromium/video.webm"
+                            },
+                            {
+                              "name": "_error-context-0",
+                              "contentType": "text/markdown",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-新規登録機能-有効な情報での新規登録が成功する-chromium/error-context.md"
+                            }
+                          ],
+                          "errorLocation": {
+                            "file": "/workspaces/frontend/tests/auth.spec.ts",
+                            "column": 65,
+                            "line": 37
+                          }
+                        },
+                        {
+                          "workerIndex": 1,
+                          "parallelIndex": 0,
+                          "status": "failed",
+                          "duration": 6167,
+                          "error": {
+                            "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('heading', { name: '新規登録' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: '新規登録' })\u001b[22m\n",
+                            "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('heading', { name: '新規登録' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: '新規登録' })\u001b[22m\n\n    at /workspaces/frontend/tests/auth.spec.ts:37:65",
+                            "location": {
+                              "file": "/workspaces/frontend/tests/auth.spec.ts",
+                              "column": 65,
+                              "line": 37
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 35 |\u001b[39m       \n \u001b[90m 36 |\u001b[39m       \u001b[90m// 新規登録フォームが表示されていることを確認\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 37 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'新規登録'\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 38 |\u001b[39m       \n \u001b[90m 39 |\u001b[39m       \u001b[90m// フォーム入力\u001b[39m\n \u001b[90m 40 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByLabel(\u001b[32m'お名前'\u001b[39m)\u001b[33m.\u001b[39mfill(\u001b[33mTEST_USER\u001b[39m\u001b[33m.\u001b[39mname)\u001b[33m;\u001b[39m\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "/workspaces/frontend/tests/auth.spec.ts",
+                                "column": 65,
+                                "line": 37
+                              },
+                              "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('heading', { name: '新規登録' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: '新規登録' })\u001b[22m\n\n\n\u001b[0m \u001b[90m 35 |\u001b[39m       \n \u001b[90m 36 |\u001b[39m       \u001b[90m// 新規登録フォームが表示されていることを確認\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 37 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'新規登録'\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 38 |\u001b[39m       \n \u001b[90m 39 |\u001b[39m       \u001b[90m// フォーム入力\u001b[39m\n \u001b[90m 40 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByLabel(\u001b[32m'お名前'\u001b[39m)\u001b[33m.\u001b[39mfill(\u001b[33mTEST_USER\u001b[39m\u001b[33m.\u001b[39mname)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /workspaces/frontend/tests/auth.spec.ts:37:65\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 1,
+                          "startTime": "2025-06-08T04:10:33.096Z",
+                          "annotations": [],
+                          "attachments": [
+                            {
+                              "name": "screenshot",
+                              "contentType": "image/png",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-新規登録機能-有効な情報での新規登録が成功する-chromium-retry1/test-failed-1.png"
+                            },
+                            {
+                              "name": "video",
+                              "contentType": "video/webm",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-新規登録機能-有効な情報での新規登録が成功する-chromium-retry1/video.webm"
+                            },
+                            {
+                              "name": "_error-context-0",
+                              "contentType": "text/markdown",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-新規登録機能-有効な情報での新規登録が成功する-chromium-retry1/error-context.md"
+                            },
+                            {
+                              "name": "trace",
+                              "contentType": "application/zip",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-新規登録機能-有効な情報での新規登録が成功する-chromium-retry1/trace.zip"
+                            }
+                          ],
+                          "errorLocation": {
+                            "file": "/workspaces/frontend/tests/auth.spec.ts",
+                            "column": 65,
+                            "line": 37
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "d748ac400d08b85935ef-7d55ac708812d7cf09f7",
+                  "file": "auth.spec.ts",
+                  "line": 27,
+                  "column": 9
+                },
+                {
+                  "title": "無効な情報での新規登録が失敗する",
+                  "ok": false,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [
+                        {
+                          "workerIndex": 2,
+                          "parallelIndex": 0,
+                          "status": "failed",
+                          "duration": 5785,
+                          "error": {
+                            "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText('名前を入力してください')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('名前を入力してください')\u001b[22m\n",
+                            "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText('名前を入力してください')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('名前を入力してください')\u001b[22m\n\n    at /workspaces/frontend/tests/auth.spec.ts:84:51",
+                            "location": {
+                              "file": "/workspaces/frontend/tests/auth.spec.ts",
+                              "column": 51,
+                              "line": 84
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 82 |\u001b[39m       \n \u001b[90m 83 |\u001b[39m       \u001b[90m// バリデーションエラーが表示されることを確認\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 84 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m'名前を入力してください'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 85 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m'メールアドレスを入力してください'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 86 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m'パスワードを入力してください'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 87 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "/workspaces/frontend/tests/auth.spec.ts",
+                                "column": 51,
+                                "line": 84
+                              },
+                              "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText('名前を入力してください')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('名前を入力してください')\u001b[22m\n\n\n\u001b[0m \u001b[90m 82 |\u001b[39m       \n \u001b[90m 83 |\u001b[39m       \u001b[90m// バリデーションエラーが表示されることを確認\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 84 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m'名前を入力してください'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 85 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m'メールアドレスを入力してください'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 86 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m'パスワードを入力してください'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 87 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /workspaces/frontend/tests/auth.spec.ts:84:51\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-06-08T04:10:40.539Z",
+                          "annotations": [],
+                          "attachments": [
+                            {
+                              "name": "screenshot",
+                              "contentType": "image/png",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-新規登録機能-無効な情報での新規登録が失敗する-chromium/test-failed-1.png"
+                            },
+                            {
+                              "name": "video",
+                              "contentType": "video/webm",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-新規登録機能-無効な情報での新規登録が失敗する-chromium/video.webm"
+                            },
+                            {
+                              "name": "_error-context-0",
+                              "contentType": "text/markdown",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-新規登録機能-無効な情報での新規登録が失敗する-chromium/error-context.md"
+                            }
+                          ],
+                          "errorLocation": {
+                            "file": "/workspaces/frontend/tests/auth.spec.ts",
+                            "column": 51,
+                            "line": 84
+                          }
+                        },
+                        {
+                          "workerIndex": 3,
+                          "parallelIndex": 0,
+                          "status": "failed",
+                          "duration": 6160,
+                          "error": {
+                            "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText('名前を入力してください')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('名前を入力してください')\u001b[22m\n",
+                            "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText('名前を入力してください')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('名前を入力してください')\u001b[22m\n\n    at /workspaces/frontend/tests/auth.spec.ts:84:51",
+                            "location": {
+                              "file": "/workspaces/frontend/tests/auth.spec.ts",
+                              "column": 51,
+                              "line": 84
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 82 |\u001b[39m       \n \u001b[90m 83 |\u001b[39m       \u001b[90m// バリデーションエラーが表示されることを確認\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 84 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m'名前を入力してください'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 85 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m'メールアドレスを入力してください'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 86 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m'パスワードを入力してください'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 87 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "/workspaces/frontend/tests/auth.spec.ts",
+                                "column": 51,
+                                "line": 84
+                              },
+                              "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText('名前を入力してください')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('名前を入力してください')\u001b[22m\n\n\n\u001b[0m \u001b[90m 82 |\u001b[39m       \n \u001b[90m 83 |\u001b[39m       \u001b[90m// バリデーションエラーが表示されることを確認\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 84 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m'名前を入力してください'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 85 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m'メールアドレスを入力してください'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 86 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m'パスワードを入力してください'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 87 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /workspaces/frontend/tests/auth.spec.ts:84:51\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 1,
+                          "startTime": "2025-06-08T04:10:47.391Z",
+                          "annotations": [],
+                          "attachments": [
+                            {
+                              "name": "screenshot",
+                              "contentType": "image/png",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-新規登録機能-無効な情報での新規登録が失敗する-chromium-retry1/test-failed-1.png"
+                            },
+                            {
+                              "name": "video",
+                              "contentType": "video/webm",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-新規登録機能-無効な情報での新規登録が失敗する-chromium-retry1/video.webm"
+                            },
+                            {
+                              "name": "_error-context-0",
+                              "contentType": "text/markdown",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-新規登録機能-無効な情報での新規登録が失敗する-chromium-retry1/error-context.md"
+                            },
+                            {
+                              "name": "trace",
+                              "contentType": "application/zip",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-新規登録機能-無効な情報での新規登録が失敗する-chromium-retry1/trace.zip"
+                            }
+                          ],
+                          "errorLocation": {
+                            "file": "/workspaces/frontend/tests/auth.spec.ts",
+                            "column": 51,
+                            "line": 84
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "d748ac400d08b85935ef-5d9374e4b6dd93e95397",
+                  "file": "auth.spec.ts",
+                  "line": 74,
+                  "column": 9
+                },
+                {
+                  "title": "パスワード不一致エラーが表示される",
+                  "ok": true,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [
+                        {
+                          "workerIndex": 4,
+                          "parallelIndex": 0,
+                          "status": "passed",
+                          "duration": 723,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-06-08T04:10:54.711Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "d748ac400d08b85935ef-d1aae5c8e88be2855c83",
+                  "file": "auth.spec.ts",
+                  "line": 89,
+                  "column": 9
+                },
+                {
+                  "title": "重複メールアドレスでの登録が失敗する",
+                  "ok": false,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [
+                        {
+                          "workerIndex": 4,
+                          "parallelIndex": 0,
+                          "status": "timedOut",
+                          "duration": 30675,
+                          "error": {
+                            "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                            "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                          },
+                          "errors": [
+                            {
+                              "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                            },
+                            {
+                              "location": {
+                                "file": "/workspaces/frontend/tests/auth.spec.ts",
+                                "column": 41,
+                                "line": 139
+                              },
+                              "message": "Error: page.waitForResponse: Test timeout of 30000ms exceeded.\n\n\u001b[0m \u001b[90m 137 |\u001b[39m       \n \u001b[90m 138 |\u001b[39m       \u001b[90m// エラーレスポンスの監視\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 139 |\u001b[39m       \u001b[36mconst\u001b[39m errorResponsePromise \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mwaitForResponse(\n \u001b[90m     |\u001b[39m                                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 140 |\u001b[39m         response \u001b[33m=>\u001b[39m response\u001b[33m.\u001b[39murl()\u001b[33m.\u001b[39mincludes(\u001b[32m'/api/auth/register'\u001b[39m) \u001b[33m&&\u001b[39m \u001b[33m!\u001b[39mresponse\u001b[33m.\u001b[39mok()\n \u001b[90m 141 |\u001b[39m       )\u001b[33m;\u001b[39m\n \u001b[90m 142 |\u001b[39m       \u001b[0m\n\u001b[2m    at /workspaces/frontend/tests/auth.spec.ts:139:41\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-06-08T04:10:55.476Z",
+                          "annotations": [],
+                          "attachments": [
+                            {
+                              "name": "screenshot",
+                              "contentType": "image/png",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-新規登録機能-重複メールアドレスでの登録が失敗する-chromium/test-failed-1.png"
+                            },
+                            {
+                              "name": "video",
+                              "contentType": "video/webm",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-新規登録機能-重複メールアドレスでの登録が失敗する-chromium/video.webm"
+                            }
+                          ]
+                        },
+                        {
+                          "workerIndex": 5,
+                          "parallelIndex": 0,
+                          "status": "timedOut",
+                          "duration": 30833,
+                          "error": {
+                            "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                            "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                          },
+                          "errors": [
+                            {
+                              "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                            },
+                            {
+                              "location": {
+                                "file": "/workspaces/frontend/tests/auth.spec.ts",
+                                "column": 41,
+                                "line": 139
+                              },
+                              "message": "Error: page.waitForResponse: Test timeout of 30000ms exceeded.\n\n\u001b[0m \u001b[90m 137 |\u001b[39m       \n \u001b[90m 138 |\u001b[39m       \u001b[90m// エラーレスポンスの監視\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 139 |\u001b[39m       \u001b[36mconst\u001b[39m errorResponsePromise \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mwaitForResponse(\n \u001b[90m     |\u001b[39m                                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 140 |\u001b[39m         response \u001b[33m=>\u001b[39m response\u001b[33m.\u001b[39murl()\u001b[33m.\u001b[39mincludes(\u001b[32m'/api/auth/register'\u001b[39m) \u001b[33m&&\u001b[39m \u001b[33m!\u001b[39mresponse\u001b[33m.\u001b[39mok()\n \u001b[90m 141 |\u001b[39m       )\u001b[33m;\u001b[39m\n \u001b[90m 142 |\u001b[39m       \u001b[0m\n\u001b[2m    at /workspaces/frontend/tests/auth.spec.ts:139:41\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 1,
+                          "startTime": "2025-06-08T04:11:27.207Z",
+                          "annotations": [],
+                          "attachments": [
+                            {
+                              "name": "screenshot",
+                              "contentType": "image/png",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-新規登録機能-重複メールアドレスでの登録が失敗する-chromium-retry1/test-failed-1.png"
+                            },
+                            {
+                              "name": "video",
+                              "contentType": "video/webm",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-新規登録機能-重複メールアドレスでの登録が失敗する-chromium-retry1/video.webm"
+                            },
+                            {
+                              "name": "trace",
+                              "contentType": "application/zip",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-新規登録機能-重複メールアドレスでの登録が失敗する-chromium-retry1/trace.zip"
+                            }
+                          ]
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "d748ac400d08b85935ef-51d7a9492b8f79c39f23",
+                  "file": "auth.spec.ts",
+                  "line": 106,
+                  "column": 9
+                }
+              ]
+            },
+            {
+              "title": "ログイン機能",
+              "file": "auth.spec.ts",
+              "line": 154,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "有効な認証情報でのログインが成功する",
+                  "ok": false,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [
+                        {
+                          "workerIndex": 6,
+                          "parallelIndex": 0,
+                          "status": "failed",
+                          "duration": 6701,
+                          "error": {
+                            "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('heading', { name: 'ログイン' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'ログイン' })\u001b[22m\n",
+                            "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('heading', { name: 'ログイン' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'ログイン' })\u001b[22m\n\n    at /workspaces/frontend/tests/auth.spec.ts:189:65",
+                            "location": {
+                              "file": "/workspaces/frontend/tests/auth.spec.ts",
+                              "column": 65,
+                              "line": 189
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 187 |\u001b[39m       \n \u001b[90m 188 |\u001b[39m       \u001b[90m// ログインフォームが表示されていることを確認\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 189 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'ログイン'\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 190 |\u001b[39m       \n \u001b[90m 191 |\u001b[39m       \u001b[90m// フォーム入力\u001b[39m\n \u001b[90m 192 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByLabel(\u001b[32m'メールアドレス'\u001b[39m)\u001b[33m.\u001b[39mfill(registeredEmail)\u001b[33m;\u001b[39m\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "/workspaces/frontend/tests/auth.spec.ts",
+                                "column": 65,
+                                "line": 189
+                              },
+                              "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('heading', { name: 'ログイン' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'ログイン' })\u001b[22m\n\n\n\u001b[0m \u001b[90m 187 |\u001b[39m       \n \u001b[90m 188 |\u001b[39m       \u001b[90m// ログインフォームが表示されていることを確認\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 189 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'ログイン'\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 190 |\u001b[39m       \n \u001b[90m 191 |\u001b[39m       \u001b[90m// フォーム入力\u001b[39m\n \u001b[90m 192 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByLabel(\u001b[32m'メールアドレス'\u001b[39m)\u001b[33m.\u001b[39mfill(registeredEmail)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /workspaces/frontend/tests/auth.spec.ts:189:65\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-06-08T04:11:59.396Z",
+                          "annotations": [],
+                          "attachments": [
+                            {
+                              "name": "screenshot",
+                              "contentType": "image/png",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-有効な認証情報でのログインが成功する-chromium/test-failed-1.png"
+                            },
+                            {
+                              "name": "video",
+                              "contentType": "video/webm",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-有効な認証情報でのログインが成功する-chromium/video.webm"
+                            },
+                            {
+                              "name": "_error-context-0",
+                              "contentType": "text/markdown",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-有効な認証情報でのログインが成功する-chromium/error-context.md"
+                            }
+                          ],
+                          "errorLocation": {
+                            "file": "/workspaces/frontend/tests/auth.spec.ts",
+                            "column": 65,
+                            "line": 189
+                          }
+                        },
+                        {
+                          "workerIndex": 7,
+                          "parallelIndex": 0,
+                          "status": "failed",
+                          "duration": 7277,
+                          "error": {
+                            "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('heading', { name: 'ログイン' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'ログイン' })\u001b[22m\n",
+                            "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('heading', { name: 'ログイン' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'ログイン' })\u001b[22m\n\n    at /workspaces/frontend/tests/auth.spec.ts:189:65",
+                            "location": {
+                              "file": "/workspaces/frontend/tests/auth.spec.ts",
+                              "column": 65,
+                              "line": 189
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 187 |\u001b[39m       \n \u001b[90m 188 |\u001b[39m       \u001b[90m// ログインフォームが表示されていることを確認\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 189 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'ログイン'\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 190 |\u001b[39m       \n \u001b[90m 191 |\u001b[39m       \u001b[90m// フォーム入力\u001b[39m\n \u001b[90m 192 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByLabel(\u001b[32m'メールアドレス'\u001b[39m)\u001b[33m.\u001b[39mfill(registeredEmail)\u001b[33m;\u001b[39m\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "/workspaces/frontend/tests/auth.spec.ts",
+                                "column": 65,
+                                "line": 189
+                              },
+                              "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('heading', { name: 'ログイン' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'ログイン' })\u001b[22m\n\n\n\u001b[0m \u001b[90m 187 |\u001b[39m       \n \u001b[90m 188 |\u001b[39m       \u001b[90m// ログインフォームが表示されていることを確認\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 189 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'ログイン'\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 190 |\u001b[39m       \n \u001b[90m 191 |\u001b[39m       \u001b[90m// フォーム入力\u001b[39m\n \u001b[90m 192 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByLabel(\u001b[32m'メールアドレス'\u001b[39m)\u001b[33m.\u001b[39mfill(registeredEmail)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /workspaces/frontend/tests/auth.spec.ts:189:65\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 1,
+                          "startTime": "2025-06-08T04:12:07.137Z",
+                          "annotations": [],
+                          "attachments": [
+                            {
+                              "name": "screenshot",
+                              "contentType": "image/png",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-有効な認証情報でのログインが成功する-chromium-retry1/test-failed-1.png"
+                            },
+                            {
+                              "name": "video",
+                              "contentType": "video/webm",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-有効な認証情報でのログインが成功する-chromium-retry1/video.webm"
+                            },
+                            {
+                              "name": "_error-context-0",
+                              "contentType": "text/markdown",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-有効な認証情報でのログインが成功する-chromium-retry1/error-context.md"
+                            },
+                            {
+                              "name": "trace",
+                              "contentType": "application/zip",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-有効な認証情報でのログインが成功する-chromium-retry1/trace.zip"
+                            }
+                          ],
+                          "errorLocation": {
+                            "file": "/workspaces/frontend/tests/auth.spec.ts",
+                            "column": 65,
+                            "line": 189
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "d748ac400d08b85935ef-42ccd160a68ca481f702",
+                  "file": "auth.spec.ts",
+                  "line": 182,
+                  "column": 9
+                },
+                {
+                  "title": "無効なパスワードでのログインが失敗する",
+                  "ok": false,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [
+                        {
+                          "workerIndex": 8,
+                          "parallelIndex": 0,
+                          "status": "failed",
+                          "duration": 7704,
+                          "error": {
+                            "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText(/ログインに失敗しました/)\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/ログインに失敗しました/)\u001b[22m\n",
+                            "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText(/ログインに失敗しました/)\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/ログインに失敗しました/)\u001b[22m\n\n    at /workspaces/frontend/tests/auth.spec.ts:246:51",
+                            "location": {
+                              "file": "/workspaces/frontend/tests/auth.spec.ts",
+                              "column": 51,
+                              "line": 246
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 244 |\u001b[39m       \n \u001b[90m 245 |\u001b[39m       \u001b[90m// エラーメッセージが表示されることを確認\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 246 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/ログインに失敗しました/\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 247 |\u001b[39m       \n \u001b[90m 248 |\u001b[39m       \u001b[90m// ローカルストレージに認証情報が保存されていないことを確認\u001b[39m\n \u001b[90m 249 |\u001b[39m       \u001b[36mconst\u001b[39m storedToken \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m localStorage\u001b[33m.\u001b[39mgetItem(\u001b[32m'auth_token'\u001b[39m))\u001b[33m;\u001b[39m\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "/workspaces/frontend/tests/auth.spec.ts",
+                                "column": 51,
+                                "line": 246
+                              },
+                              "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText(/ログインに失敗しました/)\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/ログインに失敗しました/)\u001b[22m\n\n\n\u001b[0m \u001b[90m 244 |\u001b[39m       \n \u001b[90m 245 |\u001b[39m       \u001b[90m// エラーメッセージが表示されることを確認\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 246 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/ログインに失敗しました/\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 247 |\u001b[39m       \n \u001b[90m 248 |\u001b[39m       \u001b[90m// ローカルストレージに認証情報が保存されていないことを確認\u001b[39m\n \u001b[90m 249 |\u001b[39m       \u001b[36mconst\u001b[39m storedToken \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m localStorage\u001b[33m.\u001b[39mgetItem(\u001b[32m'auth_token'\u001b[39m))\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /workspaces/frontend/tests/auth.spec.ts:246:51\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-06-08T04:12:15.721Z",
+                          "annotations": [],
+                          "attachments": [
+                            {
+                              "name": "screenshot",
+                              "contentType": "image/png",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-無効なパスワードでのログインが失敗する-chromium/test-failed-1.png"
+                            },
+                            {
+                              "name": "video",
+                              "contentType": "video/webm",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-無効なパスワードでのログインが失敗する-chromium/video.webm"
+                            },
+                            {
+                              "name": "_error-context-0",
+                              "contentType": "text/markdown",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-無効なパスワードでのログインが失敗する-chromium/error-context.md"
+                            }
+                          ],
+                          "errorLocation": {
+                            "file": "/workspaces/frontend/tests/auth.spec.ts",
+                            "column": 51,
+                            "line": 246
+                          }
+                        },
+                        {
+                          "workerIndex": 9,
+                          "parallelIndex": 0,
+                          "status": "failed",
+                          "duration": 7925,
+                          "error": {
+                            "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText(/ログインに失敗しました/)\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/ログインに失敗しました/)\u001b[22m\n",
+                            "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText(/ログインに失敗しました/)\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/ログインに失敗しました/)\u001b[22m\n\n    at /workspaces/frontend/tests/auth.spec.ts:246:51",
+                            "location": {
+                              "file": "/workspaces/frontend/tests/auth.spec.ts",
+                              "column": 51,
+                              "line": 246
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 244 |\u001b[39m       \n \u001b[90m 245 |\u001b[39m       \u001b[90m// エラーメッセージが表示されることを確認\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 246 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/ログインに失敗しました/\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 247 |\u001b[39m       \n \u001b[90m 248 |\u001b[39m       \u001b[90m// ローカルストレージに認証情報が保存されていないことを確認\u001b[39m\n \u001b[90m 249 |\u001b[39m       \u001b[36mconst\u001b[39m storedToken \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m localStorage\u001b[33m.\u001b[39mgetItem(\u001b[32m'auth_token'\u001b[39m))\u001b[33m;\u001b[39m\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "/workspaces/frontend/tests/auth.spec.ts",
+                                "column": 51,
+                                "line": 246
+                              },
+                              "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText(/ログインに失敗しました/)\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/ログインに失敗しました/)\u001b[22m\n\n\n\u001b[0m \u001b[90m 244 |\u001b[39m       \n \u001b[90m 245 |\u001b[39m       \u001b[90m// エラーメッセージが表示されることを確認\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 246 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/ログインに失敗しました/\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 247 |\u001b[39m       \n \u001b[90m 248 |\u001b[39m       \u001b[90m// ローカルストレージに認証情報が保存されていないことを確認\u001b[39m\n \u001b[90m 249 |\u001b[39m       \u001b[36mconst\u001b[39m storedToken \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m localStorage\u001b[33m.\u001b[39mgetItem(\u001b[32m'auth_token'\u001b[39m))\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /workspaces/frontend/tests/auth.spec.ts:246:51\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 1,
+                          "startTime": "2025-06-08T04:12:24.485Z",
+                          "annotations": [],
+                          "attachments": [
+                            {
+                              "name": "screenshot",
+                              "contentType": "image/png",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-無効なパスワードでのログインが失敗する-chromium-retry1/test-failed-1.png"
+                            },
+                            {
+                              "name": "video",
+                              "contentType": "video/webm",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-無効なパスワードでのログインが失敗する-chromium-retry1/video.webm"
+                            },
+                            {
+                              "name": "_error-context-0",
+                              "contentType": "text/markdown",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-無効なパスワードでのログインが失敗する-chromium-retry1/error-context.md"
+                            },
+                            {
+                              "name": "trace",
+                              "contentType": "application/zip",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-無効なパスワードでのログインが失敗する-chromium-retry1/trace.zip"
+                            }
+                          ],
+                          "errorLocation": {
+                            "file": "/workspaces/frontend/tests/auth.spec.ts",
+                            "column": 51,
+                            "line": 246
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "d748ac400d08b85935ef-d5a23d24ff23e9764ae2",
+                  "file": "auth.spec.ts",
+                  "line": 224,
+                  "column": 9
+                },
+                {
+                  "title": "存在しないメールアドレスでのログインが失敗する",
+                  "ok": false,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [
+                        {
+                          "workerIndex": 10,
+                          "parallelIndex": 0,
+                          "status": "failed",
+                          "duration": 7079,
+                          "error": {
+                            "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText(/ログインに失敗しました/)\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/ログインに失敗しました/)\u001b[22m\n",
+                            "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText(/ログインに失敗しました/)\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/ログインに失敗しました/)\u001b[22m\n\n    at /workspaces/frontend/tests/auth.spec.ts:275:51",
+                            "location": {
+                              "file": "/workspaces/frontend/tests/auth.spec.ts",
+                              "column": 51,
+                              "line": 275
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 273 |\u001b[39m       \n \u001b[90m 274 |\u001b[39m       \u001b[90m// エラーメッセージが表示されることを確認\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 275 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/ログインに失敗しました/\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 276 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 277 |\u001b[39m\n \u001b[90m 278 |\u001b[39m     test(\u001b[32m'空フォームでのログインバリデーション'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "/workspaces/frontend/tests/auth.spec.ts",
+                                "column": 51,
+                                "line": 275
+                              },
+                              "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText(/ログインに失敗しました/)\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/ログインに失敗しました/)\u001b[22m\n\n\n\u001b[0m \u001b[90m 273 |\u001b[39m       \n \u001b[90m 274 |\u001b[39m       \u001b[90m// エラーメッセージが表示されることを確認\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 275 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/ログインに失敗しました/\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 276 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 277 |\u001b[39m\n \u001b[90m 278 |\u001b[39m     test(\u001b[32m'空フォームでのログインバリデーション'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at /workspaces/frontend/tests/auth.spec.ts:275:51\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-06-08T04:12:33.724Z",
+                          "annotations": [],
+                          "attachments": [
+                            {
+                              "name": "screenshot",
+                              "contentType": "image/png",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-存在しないメールアドレスでのログインが失敗する-chromium/test-failed-1.png"
+                            },
+                            {
+                              "name": "video",
+                              "contentType": "video/webm",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-存在しないメールアドレスでのログインが失敗する-chromium/video.webm"
+                            },
+                            {
+                              "name": "_error-context-0",
+                              "contentType": "text/markdown",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-存在しないメールアドレスでのログインが失敗する-chromium/error-context.md"
+                            }
+                          ],
+                          "errorLocation": {
+                            "file": "/workspaces/frontend/tests/auth.spec.ts",
+                            "column": 51,
+                            "line": 275
+                          }
+                        },
+                        {
+                          "workerIndex": 11,
+                          "parallelIndex": 0,
+                          "status": "failed",
+                          "duration": 7605,
+                          "error": {
+                            "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText(/ログインに失敗しました/)\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/ログインに失敗しました/)\u001b[22m\n",
+                            "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText(/ログインに失敗しました/)\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/ログインに失敗しました/)\u001b[22m\n\n    at /workspaces/frontend/tests/auth.spec.ts:275:51",
+                            "location": {
+                              "file": "/workspaces/frontend/tests/auth.spec.ts",
+                              "column": 51,
+                              "line": 275
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 273 |\u001b[39m       \n \u001b[90m 274 |\u001b[39m       \u001b[90m// エラーメッセージが表示されることを確認\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 275 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/ログインに失敗しました/\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 276 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 277 |\u001b[39m\n \u001b[90m 278 |\u001b[39m     test(\u001b[32m'空フォームでのログインバリデーション'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "/workspaces/frontend/tests/auth.spec.ts",
+                                "column": 51,
+                                "line": 275
+                              },
+                              "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText(/ログインに失敗しました/)\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/ログインに失敗しました/)\u001b[22m\n\n\n\u001b[0m \u001b[90m 273 |\u001b[39m       \n \u001b[90m 274 |\u001b[39m       \u001b[90m// エラーメッセージが表示されることを確認\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 275 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/ログインに失敗しました/\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 276 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 277 |\u001b[39m\n \u001b[90m 278 |\u001b[39m     test(\u001b[32m'空フォームでのログインバリデーション'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at /workspaces/frontend/tests/auth.spec.ts:275:51\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 1,
+                          "startTime": "2025-06-08T04:12:41.851Z",
+                          "annotations": [],
+                          "attachments": [
+                            {
+                              "name": "screenshot",
+                              "contentType": "image/png",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-存在しないメールアドレスでのログインが失敗する-chromium-retry1/test-failed-1.png"
+                            },
+                            {
+                              "name": "video",
+                              "contentType": "video/webm",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-存在しないメールアドレスでのログインが失敗する-chromium-retry1/video.webm"
+                            },
+                            {
+                              "name": "_error-context-0",
+                              "contentType": "text/markdown",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-存在しないメールアドレスでのログインが失敗する-chromium-retry1/error-context.md"
+                            },
+                            {
+                              "name": "trace",
+                              "contentType": "application/zip",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-存在しないメールアドレスでのログインが失敗する-chromium-retry1/trace.zip"
+                            }
+                          ],
+                          "errorLocation": {
+                            "file": "/workspaces/frontend/tests/auth.spec.ts",
+                            "column": 51,
+                            "line": 275
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "d748ac400d08b85935ef-3f6514ad84bb0f33734b",
+                  "file": "auth.spec.ts",
+                  "line": 253,
+                  "column": 9
+                },
+                {
+                  "title": "空フォームでのログインバリデーション",
+                  "ok": false,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [
+                        {
+                          "workerIndex": 12,
+                          "parallelIndex": 0,
+                          "status": "failed",
+                          "duration": 6640,
+                          "error": {
+                            "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText('メールアドレスを入力してください')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('メールアドレスを入力してください')\u001b[22m\n",
+                            "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText('メールアドレスを入力してください')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('メールアドレスを入力してください')\u001b[22m\n\n    at /workspaces/frontend/tests/auth.spec.ts:288:56",
+                            "location": {
+                              "file": "/workspaces/frontend/tests/auth.spec.ts",
+                              "column": 56,
+                              "line": 288
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 286 |\u001b[39m       \n \u001b[90m 287 |\u001b[39m       \u001b[90m// バリデーションエラーが表示されることを確認\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 288 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m'メールアドレスを入力してください'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 289 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m'パスワードを入力してください'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 290 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 291 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "/workspaces/frontend/tests/auth.spec.ts",
+                                "column": 56,
+                                "line": 288
+                              },
+                              "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText('メールアドレスを入力してください')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('メールアドレスを入力してください')\u001b[22m\n\n\n\u001b[0m \u001b[90m 286 |\u001b[39m       \n \u001b[90m 287 |\u001b[39m       \u001b[90m// バリデーションエラーが表示されることを確認\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 288 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m'メールアドレスを入力してください'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 289 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m'パスワードを入力してください'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 290 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 291 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /workspaces/frontend/tests/auth.spec.ts:288:56\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-06-08T04:12:50.734Z",
+                          "annotations": [],
+                          "attachments": [
+                            {
+                              "name": "screenshot",
+                              "contentType": "image/png",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-空フォームでのログインバリデーション-chromium/test-failed-1.png"
+                            },
+                            {
+                              "name": "video",
+                              "contentType": "video/webm",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-空フォームでのログインバリデーション-chromium/video.webm"
+                            },
+                            {
+                              "name": "_error-context-0",
+                              "contentType": "text/markdown",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-空フォームでのログインバリデーション-chromium/error-context.md"
+                            }
+                          ],
+                          "errorLocation": {
+                            "file": "/workspaces/frontend/tests/auth.spec.ts",
+                            "column": 56,
+                            "line": 288
+                          }
+                        },
+                        {
+                          "workerIndex": 13,
+                          "parallelIndex": 0,
+                          "status": "failed",
+                          "duration": 7231,
+                          "error": {
+                            "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText('メールアドレスを入力してください')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('メールアドレスを入力してください')\u001b[22m\n",
+                            "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText('メールアドレスを入力してください')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('メールアドレスを入力してください')\u001b[22m\n\n    at /workspaces/frontend/tests/auth.spec.ts:288:56",
+                            "location": {
+                              "file": "/workspaces/frontend/tests/auth.spec.ts",
+                              "column": 56,
+                              "line": 288
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 286 |\u001b[39m       \n \u001b[90m 287 |\u001b[39m       \u001b[90m// バリデーションエラーが表示されることを確認\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 288 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m'メールアドレスを入力してください'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 289 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m'パスワードを入力してください'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 290 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 291 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "/workspaces/frontend/tests/auth.spec.ts",
+                                "column": 56,
+                                "line": 288
+                              },
+                              "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText('メールアドレスを入力してください')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('メールアドレスを入力してください')\u001b[22m\n\n\n\u001b[0m \u001b[90m 286 |\u001b[39m       \n \u001b[90m 287 |\u001b[39m       \u001b[90m// バリデーションエラーが表示されることを確認\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 288 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m'メールアドレスを入力してください'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 289 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m'パスワードを入力してください'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 290 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 291 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /workspaces/frontend/tests/auth.spec.ts:288:56\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 1,
+                          "startTime": "2025-06-08T04:12:58.393Z",
+                          "annotations": [],
+                          "attachments": [
+                            {
+                              "name": "screenshot",
+                              "contentType": "image/png",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-空フォームでのログインバリデーション-chromium-retry1/test-failed-1.png"
+                            },
+                            {
+                              "name": "video",
+                              "contentType": "video/webm",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-空フォームでのログインバリデーション-chromium-retry1/video.webm"
+                            },
+                            {
+                              "name": "_error-context-0",
+                              "contentType": "text/markdown",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-空フォームでのログインバリデーション-chromium-retry1/error-context.md"
+                            },
+                            {
+                              "name": "trace",
+                              "contentType": "application/zip",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-ログイン機能-空フォームでのログインバリデーション-chromium-retry1/trace.zip"
+                            }
+                          ],
+                          "errorLocation": {
+                            "file": "/workspaces/frontend/tests/auth.spec.ts",
+                            "column": 56,
+                            "line": 288
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "d748ac400d08b85935ef-26e939c97c0df71d57c3",
+                  "file": "auth.spec.ts",
+                  "line": 278,
+                  "column": 9
+                }
+              ]
+            },
+            {
+              "title": "認証状態の持続性",
+              "file": "auth.spec.ts",
+              "line": 293,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "ページリロード後も認証状態が維持される",
+                  "ok": true,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [
+                        {
+                          "workerIndex": 14,
+                          "parallelIndex": 0,
+                          "status": "passed",
+                          "duration": 1519,
+                          "errors": [],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-06-08T04:13:06.963Z",
+                          "annotations": [],
+                          "attachments": []
+                        }
+                      ],
+                      "status": "expected"
+                    }
+                  ],
+                  "id": "d748ac400d08b85935ef-151f3e20e60b36fc8c46",
+                  "file": "auth.spec.ts",
+                  "line": 294,
+                  "column": 9
+                }
+              ]
+            },
+            {
+              "title": "フォーム切り替え",
+              "file": "auth.spec.ts",
+              "line": 331,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "ログインフォームから新規登録フォームへの切り替え",
+                  "ok": false,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [
+                        {
+                          "workerIndex": 14,
+                          "parallelIndex": 0,
+                          "status": "failed",
+                          "duration": 5665,
+                          "error": {
+                            "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('heading', { name: 'ログイン' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'ログイン' })\u001b[22m\n",
+                            "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('heading', { name: 'ログイン' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'ログイン' })\u001b[22m\n\n    at /workspaces/frontend/tests/auth.spec.ts:337:65",
+                            "location": {
+                              "file": "/workspaces/frontend/tests/auth.spec.ts",
+                              "column": 65,
+                              "line": 337
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 335 |\u001b[39m       \u001b[90m// ログインフォームに切り替え\u001b[39m\n \u001b[90m 336 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'ログイン'\u001b[39m })\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 337 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'ログイン'\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 338 |\u001b[39m       \n \u001b[90m 339 |\u001b[39m       \u001b[90m// 新規登録フォームに切り替え\u001b[39m\n \u001b[90m 340 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'新規登録'\u001b[39m })\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "/workspaces/frontend/tests/auth.spec.ts",
+                                "column": 65,
+                                "line": 337
+                              },
+                              "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('heading', { name: 'ログイン' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'ログイン' })\u001b[22m\n\n\n\u001b[0m \u001b[90m 335 |\u001b[39m       \u001b[90m// ログインフォームに切り替え\u001b[39m\n \u001b[90m 336 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'ログイン'\u001b[39m })\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 337 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'ログイン'\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 338 |\u001b[39m       \n \u001b[90m 339 |\u001b[39m       \u001b[90m// 新規登録フォームに切り替え\u001b[39m\n \u001b[90m 340 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'新規登録'\u001b[39m })\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /workspaces/frontend/tests/auth.spec.ts:337:65\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-06-08T04:13:08.526Z",
+                          "annotations": [],
+                          "attachments": [
+                            {
+                              "name": "screenshot",
+                              "contentType": "image/png",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-フォーム切り替え-ログインフォームから新規登録フォームへの切り替え-chromium/test-failed-1.png"
+                            },
+                            {
+                              "name": "video",
+                              "contentType": "video/webm",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-フォーム切り替え-ログインフォームから新規登録フォームへの切り替え-chromium/video.webm"
+                            },
+                            {
+                              "name": "_error-context-0",
+                              "contentType": "text/markdown",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-フォーム切り替え-ログインフォームから新規登録フォームへの切り替え-chromium/error-context.md"
+                            }
+                          ],
+                          "errorLocation": {
+                            "file": "/workspaces/frontend/tests/auth.spec.ts",
+                            "column": 65,
+                            "line": 337
+                          }
+                        },
+                        {
+                          "workerIndex": 15,
+                          "parallelIndex": 0,
+                          "status": "failed",
+                          "duration": 6000,
+                          "error": {
+                            "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('heading', { name: 'ログイン' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'ログイン' })\u001b[22m\n",
+                            "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('heading', { name: 'ログイン' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'ログイン' })\u001b[22m\n\n    at /workspaces/frontend/tests/auth.spec.ts:337:65",
+                            "location": {
+                              "file": "/workspaces/frontend/tests/auth.spec.ts",
+                              "column": 65,
+                              "line": 337
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 335 |\u001b[39m       \u001b[90m// ログインフォームに切り替え\u001b[39m\n \u001b[90m 336 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'ログイン'\u001b[39m })\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 337 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'ログイン'\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 338 |\u001b[39m       \n \u001b[90m 339 |\u001b[39m       \u001b[90m// 新規登録フォームに切り替え\u001b[39m\n \u001b[90m 340 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'新規登録'\u001b[39m })\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "/workspaces/frontend/tests/auth.spec.ts",
+                                "column": 65,
+                                "line": 337
+                              },
+                              "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('heading', { name: 'ログイン' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'ログイン' })\u001b[22m\n\n\n\u001b[0m \u001b[90m 335 |\u001b[39m       \u001b[90m// ログインフォームに切り替え\u001b[39m\n \u001b[90m 336 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'ログイン'\u001b[39m })\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 337 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'ログイン'\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 338 |\u001b[39m       \n \u001b[90m 339 |\u001b[39m       \u001b[90m// 新規登録フォームに切り替え\u001b[39m\n \u001b[90m 340 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'新規登録'\u001b[39m })\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /workspaces/frontend/tests/auth.spec.ts:337:65\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 1,
+                          "startTime": "2025-06-08T04:13:15.171Z",
+                          "annotations": [],
+                          "attachments": [
+                            {
+                              "name": "screenshot",
+                              "contentType": "image/png",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-フォーム切り替え-ログインフォームから新規登録フォームへの切り替え-chromium-retry1/test-failed-1.png"
+                            },
+                            {
+                              "name": "video",
+                              "contentType": "video/webm",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-フォーム切り替え-ログインフォームから新規登録フォームへの切り替え-chromium-retry1/video.webm"
+                            },
+                            {
+                              "name": "_error-context-0",
+                              "contentType": "text/markdown",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-フォーム切り替え-ログインフォームから新規登録フォームへの切り替え-chromium-retry1/error-context.md"
+                            },
+                            {
+                              "name": "trace",
+                              "contentType": "application/zip",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-フォーム切り替え-ログインフォームから新規登録フォームへの切り替え-chromium-retry1/trace.zip"
+                            }
+                          ],
+                          "errorLocation": {
+                            "file": "/workspaces/frontend/tests/auth.spec.ts",
+                            "column": 65,
+                            "line": 337
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "d748ac400d08b85935ef-41758d649781acf8d553",
+                  "file": "auth.spec.ts",
+                  "line": 332,
+                  "column": 9
+                },
+                {
+                  "title": "新規登録フォームからログインフォームへの切り替え",
+                  "ok": false,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [
+                        {
+                          "workerIndex": 16,
+                          "parallelIndex": 0,
+                          "status": "failed",
+                          "duration": 5615,
+                          "error": {
+                            "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('heading', { name: '新規登録' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: '新規登録' })\u001b[22m\n",
+                            "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('heading', { name: '新規登録' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: '新規登録' })\u001b[22m\n\n    at /workspaces/frontend/tests/auth.spec.ts:348:65",
+                            "location": {
+                              "file": "/workspaces/frontend/tests/auth.spec.ts",
+                              "column": 65,
+                              "line": 348
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 346 |\u001b[39m       \n \u001b[90m 347 |\u001b[39m       \u001b[90m// デフォルトで新規登録フォームが表示されている\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 348 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'新規登録'\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 349 |\u001b[39m       \n \u001b[90m 350 |\u001b[39m       \u001b[90m// ログインフォームに切り替え\u001b[39m\n \u001b[90m 351 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'ログイン'\u001b[39m })\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "/workspaces/frontend/tests/auth.spec.ts",
+                                "column": 65,
+                                "line": 348
+                              },
+                              "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('heading', { name: '新規登録' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: '新規登録' })\u001b[22m\n\n\n\u001b[0m \u001b[90m 346 |\u001b[39m       \n \u001b[90m 347 |\u001b[39m       \u001b[90m// デフォルトで新規登録フォームが表示されている\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 348 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'新規登録'\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 349 |\u001b[39m       \n \u001b[90m 350 |\u001b[39m       \u001b[90m// ログインフォームに切り替え\u001b[39m\n \u001b[90m 351 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'ログイン'\u001b[39m })\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /workspaces/frontend/tests/auth.spec.ts:348:65\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-06-08T04:13:22.339Z",
+                          "annotations": [],
+                          "attachments": [
+                            {
+                              "name": "screenshot",
+                              "contentType": "image/png",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-フォーム切り替え-新規登録フォームからログインフォームへの切り替え-chromium/test-failed-1.png"
+                            },
+                            {
+                              "name": "video",
+                              "contentType": "video/webm",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-フォーム切り替え-新規登録フォームからログインフォームへの切り替え-chromium/video.webm"
+                            },
+                            {
+                              "name": "_error-context-0",
+                              "contentType": "text/markdown",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-フォーム切り替え-新規登録フォームからログインフォームへの切り替え-chromium/error-context.md"
+                            }
+                          ],
+                          "errorLocation": {
+                            "file": "/workspaces/frontend/tests/auth.spec.ts",
+                            "column": 65,
+                            "line": 348
+                          }
+                        },
+                        {
+                          "workerIndex": 17,
+                          "parallelIndex": 0,
+                          "status": "failed",
+                          "duration": 5941,
+                          "error": {
+                            "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('heading', { name: '新規登録' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: '新規登録' })\u001b[22m\n",
+                            "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('heading', { name: '新規登録' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: '新規登録' })\u001b[22m\n\n    at /workspaces/frontend/tests/auth.spec.ts:348:65",
+                            "location": {
+                              "file": "/workspaces/frontend/tests/auth.spec.ts",
+                              "column": 65,
+                              "line": 348
+                            },
+                            "snippet": "\u001b[0m \u001b[90m 346 |\u001b[39m       \n \u001b[90m 347 |\u001b[39m       \u001b[90m// デフォルトで新規登録フォームが表示されている\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 348 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'新規登録'\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 349 |\u001b[39m       \n \u001b[90m 350 |\u001b[39m       \u001b[90m// ログインフォームに切り替え\u001b[39m\n \u001b[90m 351 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'ログイン'\u001b[39m })\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "/workspaces/frontend/tests/auth.spec.ts",
+                                "column": 65,
+                                "line": 348
+                              },
+                              "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('heading', { name: '新規登録' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - expect.toBeVisible with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: '新規登録' })\u001b[22m\n\n\n\u001b[0m \u001b[90m 346 |\u001b[39m       \n \u001b[90m 347 |\u001b[39m       \u001b[90m// デフォルトで新規登録フォームが表示されている\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 348 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'新規登録'\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 349 |\u001b[39m       \n \u001b[90m 350 |\u001b[39m       \u001b[90m// ログインフォームに切り替え\u001b[39m\n \u001b[90m 351 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'ログイン'\u001b[39m })\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /workspaces/frontend/tests/auth.spec.ts:348:65\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 1,
+                          "startTime": "2025-06-08T04:13:28.979Z",
+                          "annotations": [],
+                          "attachments": [
+                            {
+                              "name": "screenshot",
+                              "contentType": "image/png",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-フォーム切り替え-新規登録フォームからログインフォームへの切り替え-chromium-retry1/test-failed-1.png"
+                            },
+                            {
+                              "name": "video",
+                              "contentType": "video/webm",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-フォーム切り替え-新規登録フォームからログインフォームへの切り替え-chromium-retry1/video.webm"
+                            },
+                            {
+                              "name": "_error-context-0",
+                              "contentType": "text/markdown",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-フォーム切り替え-新規登録フォームからログインフォームへの切り替え-chromium-retry1/error-context.md"
+                            },
+                            {
+                              "name": "trace",
+                              "contentType": "application/zip",
+                              "path": "/workspaces/frontend/test-results/auth-認証機能のE2Eテスト-フォーム切り替え-新規登録フォームからログインフォームへの切り替え-chromium-retry1/trace.zip"
+                            }
+                          ],
+                          "errorLocation": {
+                            "file": "/workspaces/frontend/tests/auth.spec.ts",
+                            "column": 65,
+                            "line": 348
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "d748ac400d08b85935ef-7f5314c08c0f32997c51",
+                  "file": "auth.spec.ts",
+                  "line": 344,
+                  "column": 9
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-06-08T04:10:24.522Z",
+    "duration": 190652.36200000002,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 9,
+    "flaky": 0
+  }
+}

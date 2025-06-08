@@ -12,7 +12,7 @@ impl MigrationTrait for Migration {
             "users",
             &[
                 ("id", ColType::PkAuto),
-                ("pid", ColType::Uuid),
+                ("pid", ColType::UuidUniq),
                 ("email", ColType::StringUniq),
                 ("password", ColType::String),
                 ("api_key", ColType::StringUniq),

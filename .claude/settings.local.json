@@ -1,7 +1,26 @@
 {
   "permissions": {
     "allow": [
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(rm:*)",
+      "Bash(cargo check:*)",
+      "Bash(cargo fix:*)",
+      "Bash(cc:*)",
+      "Bash(cargo clean:*)",
+      "Bash(unset CARGO_TARGET_DIR)",
+      "Bash(cargo loco:*)",
+      "Bash(pkill:*)",
+      "Bash(true)",
+      "Bash(ss:*)",
+      "Bash(lsof:*)",
+      "Bash(./target/debug/myapp-cli:*)",
+      "Bash(grep:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npm install:*)",
+      "Bash(npx playwright:*)",
+      "Bash(sudo apt-get:*)",
+      "Bash(sudo apt-get install:*)",
+      "Bash(curl:*)"
     ],
     "deny": []
   }

@@ -17,7 +17,7 @@ logger:
 # Web server configuration
 server:
   # Port on which the server will listen. the server binding is 0.0.0.0:{PORT}
-  port: 5151
+  port: 5150
   # Binding for the server (which interface to bind to)
   binding: 0.0.0.0
   # The UI hostname or IP address that mailers will point to.
@@ -90,7 +90,7 @@ database:
   # Database connection URI
   uri: {{ get_env(name="DATABASE_URL", default="postgres://loco:loco@localhost:5432/myapp_development") }}
   # When enabled, the sql query will be logged.
-  enable_logging: false
+  enable_logging: true
   # Set the timeout duration when acquiring a connection.
   connect_timeout: {{ get_env(name="DB_CONNECT_TIMEOUT", default="500") }}
   # Set the idle duration before closing a connection.

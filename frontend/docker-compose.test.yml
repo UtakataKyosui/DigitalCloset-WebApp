@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  # Backend service
+  backend:
+    build:
+      context: ../myapp
+      dockerfile: Dockerfile
+    ports:
+      - "5150:5150"
+    environment:
+      - RUST_LOG=debug
+      - DATABASE_URL=postgres://loco:loco@db:5432/myapp_test
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  # Database service
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: myapp_test
+      POSTGRES_USER: loco
+      POSTGRES_PASSWORD: loco
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U loco"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  # Frontend service
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://backend:5150
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  # Playwright E2E testing service
+  playwright:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    environment:
+      - NODE_ENV=test
+      - PLAYWRIGHT_BASE_URL=http://frontend:3000
+      - API_BASE_URL=http://backend:5150
+    depends_on:
+      - frontend
+      - backend
+    volumes:
+      - ./tests:/app/tests
+      - ./test-results:/app/test-results
+      - ./playwright-report:/app/playwright-report
+    networks:
+      - app-network
+    command: ["npm", "run", "test"]
+
+networks:
+  app-network:
+    driver: bridge

@@ -1,16 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useForm } from '@conform-to/react'
+import { parseWithZod } from '@conform-to/zod'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { apiService } from '@/lib/api'
-
-interface LoginFormData {
-  email: string
-  password: string
-}
+import { loginSchema, type LoginFormData } from '@/lib/schemas'
+import { useActionState } from 'react'
 
 interface LoginFormProps {
   onSuccess?: (response: { token: string; pid: string; name: string }) => void
@@ -19,117 +16,104 @@ interface LoginFormProps {
 }
 
 export function LoginForm({ onSuccess, onError, onSwitchToRegister }: LoginFormProps) {
-  const [formData, setFormData] = useState<LoginFormData>({
-    email: '',
-    password: '',
-  })
+  const [lastResult, action, isPending] = useActionState(async (prevState: any, formData: FormData) => {
+    const submission = parseWithZod(formData, { schema: loginSchema })
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [errors, setErrors] = useState<Record<string, string>>({})
-
-  const validateForm = (): boolean => {
-    const newErrors: Record<string, string> = {}
-
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required'
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address'
+    if (submission.status !== 'success') {
+      return submission.reply()
     }
-
-    if (!formData.password.trim()) {
-      newErrors.password = 'Password is required'
-    } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters'
-    }
-
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
-    if (!validateForm()) {
-      return
-    }
-
-    setIsSubmitting(true)
-    setErrors({})
 
     try {
-      const response = await apiService.login(formData.email.trim(), formData.password)
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: submission.value.email.trim(),
+          password: submission.value.password
+        })
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error || 'ログインに失敗しました')
+      }
+
+      const data = await response.json()
       
       // Store token in localStorage for persistence
-      localStorage.setItem('auth_token', response.token)
-      localStorage.setItem('user_pid', response.user.pid)
-      localStorage.setItem('user_name', response.user.name)
+      localStorage.setItem('auth_token', data.token)
+      localStorage.setItem('user_pid', data.pid)
+      localStorage.setItem('user_name', data.name)
       
-      onSuccess?.(response)
+      onSuccess?.(data)
       
-      // Reset form
-      setFormData({
-        email: '',
-        password: '',
-      })
+      return submission.reply({ resetForm: true })
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Login failed'
+      const errorMessage = error instanceof Error ? error.message : 'ログインに失敗しました'
       onError?.(errorMessage)
-      setErrors({ submit: errorMessage })
-    } finally {
-      setIsSubmitting(false)
+      return submission.reply({
+        formErrors: [errorMessage]
+      })
     }
-  }
+  }, undefined)
 
-  const handleInputChange = (field: keyof LoginFormData, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }))
-    // Clear error when user starts typing
-    if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: '' }))
-    }
-  }
+  const [form, fields] = useForm({
+    lastResult,
+    onValidate({ formData }) {
+      return parseWithZod(formData, { schema: loginSchema })
+    },
+    shouldValidate: 'onBlur',
+    shouldRevalidate: 'onInput',
+  })
 
   return (
     <Card className="w-full max-w-md mx-auto">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl text-center">Sign In</CardTitle>
+        <CardTitle className="text-2xl text-center">ログイン</CardTitle>
         <CardDescription className="text-center">
-          Enter your email and password to access your account
+          メールアドレスとパスワードを入力してください
         </CardDescription>
       </CardHeader>
       
-      <form onSubmit={handleSubmit}>
+      <form id={form.id} onSubmit={form.onSubmit} action={action} noValidate>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="login-email">Email</Label>
+            <Label htmlFor={fields.email.id}>メールアドレス</Label>
             <Input
-              id="login-email"
+              key={fields.email.key}
+              id={fields.email.id}
+              name={fields.email.name}
               type="email"
-              value={formData.email}
-              onChange={(e) => handleInputChange('email', e.target.value)}
-              placeholder="john@example.com"
-              className={errors.email ? 'border-red-500' : ''}
-              disabled={isSubmitting}
+              defaultValue={fields.email.initialValue}
+              placeholder="example@example.com"
+              className={fields.email.errors ? 'border-red-500' : ''}
+              disabled={isPending}
             />
-            {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
+            {fields.email.errors && (
+              <p className="text-sm text-red-500">{fields.email.errors[0]}</p>
+            )}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="login-password">Password</Label>
+            <Label htmlFor={fields.password.id}>パスワード</Label>
             <Input
-              id="login-password"
+              key={fields.password.key}
+              id={fields.password.id}
+              name={fields.password.name}
               type="password"
-              value={formData.password}
-              onChange={(e) => handleInputChange('password', e.target.value)}
-              placeholder="Enter your password"
-              className={errors.password ? 'border-red-500' : ''}
-              disabled={isSubmitting}
+              defaultValue={fields.password.initialValue}
+              placeholder="パスワードを入力"
+              className={fields.password.errors ? 'border-red-500' : ''}
+              disabled={isPending}
             />
-            {errors.password && <p className="text-sm text-red-500">{errors.password}</p>}
+            {fields.password.errors && (
+              <p className="text-sm text-red-500">{fields.password.errors[0]}</p>
+            )}
           </div>
 
-          {errors.submit && (
+          {form.errors && (
             <div className="text-sm text-red-500 bg-red-50 p-3 rounded border border-red-200">
-              {errors.submit}
+              {form.errors[0]}
             </div>
           )}
         </CardContent>
@@ -137,10 +121,10 @@ export function LoginForm({ onSuccess, onError, onSwitchToRegister }: LoginFormP
         <CardFooter className="flex flex-col space-y-4">
           <Button 
             type="submit" 
-            disabled={isSubmitting}
+            disabled={isPending}
             className="w-full"
           >
-            {isSubmitting ? 'Signing In...' : 'Sign In'}
+            {isPending ? 'ログイン中...' : 'ログイン'}
           </Button>
           
           <div className="text-center space-y-2">
@@ -150,19 +134,19 @@ export function LoginForm({ onSuccess, onError, onSwitchToRegister }: LoginFormP
               className="text-sm text-blue-600 hover:text-blue-500"
               onClick={() => {/* TODO: Implement forgot password */}}
             >
-              Forgot your password?
+              パスワードをお忘れですか？
             </Button>
             
             {onSwitchToRegister && (
               <div className="text-sm text-gray-600">
-                Don't have an account?{' '}
+                アカウントをお持ちでない方は{' '}
                 <Button
                   type="button"
                   variant="link"
                   className="p-0 h-auto text-blue-600 hover:text-blue-500"
                   onClick={onSwitchToRegister}
                 >
-                  Sign up
+                  新規登録
                 </Button>
               </div>
             )}

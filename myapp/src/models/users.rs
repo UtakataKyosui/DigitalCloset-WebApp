@@ -82,6 +82,8 @@ impl Model {
     ///
     /// When could not find user by the given token or DB query error
     pub async fn find_by_email(db: &DatabaseConnection, email: &str) -> ModelResult<Self> {
+        tracing::debug!(email = %email, "Searching for user by email");
+        
         let user = users::Entity::find()
             .filter(
                 model::query::condition()
@@ -89,7 +91,20 @@ impl Model {
                     .build(),
             )
             .one(db)
-            .await?;
+            .await.map_err(|e| {
+                tracing::error!(email = %email, error = %e, "Database error when finding user by email");
+                e
+            })?;
+            
+        match &user {
+            Some(u) => {
+                tracing::debug!(email = %email, user_pid = %u.pid, "User found by email");
+            }
+            None => {
+                tracing::debug!(email = %email, "No user found with this email");
+            }
+        }
+        
         user.ok_or_else(|| ModelError::EntityNotFound)
     }
 
@@ -153,7 +168,14 @@ impl Model {
     /// when could not verify password
     #[must_use]
     pub fn verify_password(&self, password: &str) -> bool {
-        hash::verify_password(password, &self.password)
+        let result = hash::verify_password(password, &self.password);
+        tracing::debug!(
+            email = %self.email,
+            user_pid = %self.pid,
+            password_valid = result,
+            "Password verification for user"
+        );
+        result
     }
 
     /// Asynchronously creates a user with a password and saves it to the

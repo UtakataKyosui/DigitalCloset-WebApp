@@ -1,29 +1,21 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useForm } from '@conform-to/react'
+import { parseWithZod } from '@conform-to/zod'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { apiService, Coordinate, ClothesItem } from '@/lib/api'
-
-interface CoordinateFormData {
-  name: string
-  description: string
-  occasion: string
-  season: string
-  style: string
-  userId: string
-  isFavorite: boolean
-  imageUrl: string
-  clothesIds: number[]
-}
+import { coordinatesSchema, type CoordinatesFormData } from '@/lib/schemas'
+import { useActionState } from 'react'
 
 interface CoordinateFormProps {
   onSuccess?: (coordinate: Coordinate) => void
   onError?: (error: string) => void
-  initialData?: Partial<CoordinateFormData>
+  initialData?: Partial<CoordinatesFormData>
   mode?: 'create' | 'edit'
   coordinatePid?: string
 }

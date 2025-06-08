@@ -29,21 +29,56 @@ async fn register(
     State(ctx): State<AppContext>,
     Json(params): Json<RegisterParams>,
 ) -> Result<Response> {
+    tracing::info!(
+        email = %params.email,
+        name = %params.name,
+        "Registration attempt"
+    );
+
     let res = users::Model::create_with_password(&ctx.db, &params).await;
 
     let user = match res {
-        Ok(user) => user,
-        Err(err) => {
+        Ok(user) => {
             tracing::info!(
-                message = err.to_string(),
-                user_email = &params.email,
-                "could not register user",
+                email = %params.email,
+                user_pid = %user.pid,
+                "User created successfully"
+            );
+            user
+        }
+        Err(err) => {
+            tracing::error!(
+                error = %err,
+                email = %params.email,
+                "Failed to create user"
             );
             return format::json(());
         }
     };
 
-    AuthMailer::send_welcome(&ctx, &user).await?;
+    match AuthMailer::send_welcome(&ctx, &user).await {
+        Ok(_) => {
+            tracing::info!(
+                email = %params.email,
+                user_pid = %user.pid,
+                "Welcome email sent successfully"
+            );
+        }
+        Err(err) => {
+            tracing::warn!(
+                error = %err,
+                email = %params.email,
+                user_pid = %user.pid,
+                "Failed to send welcome email, but registration successful"
+            );
+        }
+    }
+
+    tracing::info!(
+        email = %params.email,
+        user_pid = %user.pid,
+        "Registration completed successfully"
+    );
 
     format::json(())
 }
@@ -94,19 +129,86 @@ async fn reset(State(ctx): State<AppContext>, Json(params): Json<ResetParams>) -
 /// Creates a user login and returns a token
 #[debug_handler]
 async fn login(State(ctx): State<AppContext>, Json(params): Json<LoginParams>) -> Result<Response> {
-    let user = users::Model::find_by_email(&ctx.db, &params.email).await?;
+    tracing::info!(
+        email = %params.email,
+        "Login attempt"
+    );
+
+    let user = match users::Model::find_by_email(&ctx.db, &params.email).await {
+        Ok(user) => {
+            tracing::info!(
+                email = %params.email,
+                user_pid = %user.pid,
+                "User found for login"
+            );
+            user
+        }
+        Err(err) => {
+            tracing::error!(
+                email = %params.email,
+                error = %err,
+                "User not found for login"
+            );
+            return unauthorized("User not found");
+        }
+    };
 
     let valid = user.verify_password(&params.password);
+    tracing::info!(
+        email = %params.email,
+        user_pid = %user.pid,
+        password_valid = valid,
+        "Password verification result"
+    );
 
     if !valid {
-        return unauthorized("unauthorized!");
+        tracing::warn!(
+            email = %params.email,
+            user_pid = %user.pid,
+            "Invalid password for login"
+        );
+        return unauthorized("Invalid password");
     }
 
-    let jwt_secret = ctx.config.get_jwt_config()?;
+    let jwt_secret = match ctx.config.get_jwt_config() {
+        Ok(config) => {
+            tracing::info!("JWT config retrieved successfully");
+            config
+        }
+        Err(err) => {
+            tracing::error!(
+                error = %err,
+                "Failed to get JWT config"
+            );
+            return Err(Error::InternalServerError);
+        }
+    };
 
-    let token = user
-        .generate_jwt(&jwt_secret.secret, jwt_secret.expiration)
-        .or_else(|_| unauthorized("unauthorized!"))?;
+    let token = match user.generate_jwt(&jwt_secret.secret, jwt_secret.expiration) {
+        Ok(token) => {
+            tracing::info!(
+                email = %params.email,
+                user_pid = %user.pid,
+                "JWT token generated successfully"
+            );
+            token
+        }
+        Err(err) => {
+            tracing::error!(
+                email = %params.email,
+                user_pid = %user.pid,
+                error = %err,
+                "Failed to generate JWT token"
+            );
+            return unauthorized("Token generation failed");
+        }
+    };
+
+    tracing::info!(
+        email = %params.email,
+        user_pid = %user.pid,
+        "Login successful"
+    );
 
     format::json(LoginResponse::new(&user, &token))
 }

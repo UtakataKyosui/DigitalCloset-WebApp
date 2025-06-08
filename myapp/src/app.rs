@@ -56,7 +56,6 @@ impl Hooks for App {
             .add_route(controllers::clothes::routes())
             .add_route(controllers::coordinates::routes())
             .add_route(controllers::forms::routes())
-            .add_route(controllers::validation::routes())
     }
 
     async fn connect_workers(ctx: &AppContext, queue: &Queue) -> Result<()> {

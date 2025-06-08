@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5151'
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || ''
 
 export interface ClothesItem {
   pid: string
@@ -258,21 +258,6 @@ class ApiService {
     })
   }
 
-  // Validation API
-  async getValidationRules(): Promise<any> {
-    return this.request<any>('/api/validation/rules')
-  }
-
-  async getFormOptions(): Promise<any> {
-    return this.request<any>('/api/validation/options')
-  }
-
-  async validateField(data: { field_name: string; value: string; form_type: string }): Promise<{ valid: boolean; errors: any[] }> {
-    return this.request<{ valid: boolean; errors: any[] }>('/api/validation/field', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    })
-  }
 }
 
 export const apiService = new ApiService()

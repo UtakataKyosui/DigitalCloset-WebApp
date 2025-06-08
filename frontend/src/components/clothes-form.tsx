@@ -1,25 +1,14 @@
 'use client'
 
-import { useState } from 'react'
+import { useForm } from '@conform-to/react'
+import { parseWithZod } from '@conform-to/zod'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { apiService, ClothesItem } from '@/lib/api'
-
-interface ClothesFormData {
-  name: string
-  description: string
-  brand: string
-  category: string
-  size: string
-  color: string
-  material: string
-  price: string
-  inStock: boolean
-  stockQuantity: string
-  imageUrl: string
-}
+import { clothesSchema, type ClothesFormData } from '@/lib/schemas'
+import { useActionState } from 'react'
 
 interface ClothesFormProps {
   onSuccess?: (clothes: ClothesItem) => void
@@ -36,263 +25,227 @@ export function ClothesForm({
   mode = 'create',
   clothesPid 
 }: ClothesFormProps) {
-  const [formData, setFormData] = useState<ClothesFormData>({
-    name: initialData?.name || '',
-    description: initialData?.description || '',
-    brand: initialData?.brand || '',
-    category: initialData?.category || '',
-    size: initialData?.size || '',
-    color: initialData?.color || '',
-    material: initialData?.material || '',
-    price: initialData?.price || '',
-    inStock: initialData?.inStock ?? true,
-    stockQuantity: initialData?.stockQuantity || '1',
-    imageUrl: initialData?.imageUrl || '',
-  })
+  const [lastResult, action, isPending] = useActionState(async (prevState: any, formData: FormData) => {
+    const submission = parseWithZod(formData, { schema: clothesSchema })
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [errors, setErrors] = useState<Record<string, string>>({})
-
-  const validateForm = (): boolean => {
-    const newErrors: Record<string, string> = {}
-
-    if (!formData.name.trim()) newErrors.name = 'Name is required'
-    if (!formData.brand.trim()) newErrors.brand = 'Brand is required'
-    if (!formData.category.trim()) newErrors.category = 'Category is required'
-    if (!formData.size.trim()) newErrors.size = 'Size is required'
-    if (!formData.color.trim()) newErrors.color = 'Color is required'
-    
-    const price = parseFloat(formData.price)
-    if (!formData.price.trim() || isNaN(price) || price < 0) {
-      newErrors.price = 'Valid price is required'
+    if (submission.status !== 'success') {
+      return submission.reply()
     }
-
-    const quantity = parseInt(formData.stockQuantity)
-    if (!formData.stockQuantity.trim() || isNaN(quantity) || quantity < 0) {
-      newErrors.stockQuantity = 'Valid stock quantity is required'
-    }
-
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
-    if (!validateForm()) {
-      return
-    }
-
-    setIsSubmitting(true)
-    setErrors({})
 
     try {
       const submitData = {
-        name: formData.name.trim(),
-        description: formData.description.trim() || undefined,
-        brand: formData.brand.trim(),
-        category: formData.category.trim(),
-        size: formData.size.trim(),
-        color: formData.color.trim(),
-        material: formData.material.trim() || undefined,
-        price: parseFloat(formData.price),
-        in_stock: formData.inStock,
-        stock_quantity: parseInt(formData.stockQuantity),
-        image_url: formData.imageUrl.trim() || undefined,
+        name: submission.value.name.trim(),
+        brand: submission.value.brand.trim(),
+        category: submission.value.category.trim(),
+        size: submission.value.size.trim(),
+        color: submission.value.color.trim(),
+        material: submission.value.material?.trim() || undefined,
+        price: submission.value.price || undefined,
+        stock: submission.value.stock || undefined,
       }
 
       let result: ClothesItem
 
       if (mode === 'edit' && clothesPid) {
-        const response = await apiService.updateClothesForm(clothesPid, submitData)
-        result = response.data
+        const response = await fetch(`/api/forms/clothes/${clothesPid}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(submitData)
+        })
+        
+        if (!response.ok) {
+          const error = await response.json()
+          throw new Error(error.error || '更新に失敗しました')
+        }
+        
+        const data = await response.json()
+        result = data.data
       } else {
-        const response = await apiService.submitClothesForm(submitData)
-        result = response.data
+        const response = await fetch('/api/forms/clothes', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(submitData)
+        })
+        
+        if (!response.ok) {
+          const error = await response.json()
+          throw new Error(error.error || '作成に失敗しました')
+        }
+        
+        const data = await response.json()
+        result = data.data
       }
 
       onSuccess?.(result)
       
-      // Reset form if creating new item
-      if (mode === 'create') {
-        setFormData({
-          name: '',
-          description: '',
-          brand: '',
-          category: '',
-          size: '',
-          color: '',
-          material: '',
-          price: '',
-          inStock: true,
-          stockQuantity: '1',
-          imageUrl: '',
-        })
-      }
+      return submission.reply({ resetForm: mode === 'create' })
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to submit form'
+      const errorMessage = error instanceof Error ? error.message : 'フォームの送信に失敗しました'
       onError?.(errorMessage)
-      setErrors({ submit: errorMessage })
-    } finally {
-      setIsSubmitting(false)
+      return submission.reply({
+        formErrors: [errorMessage]
+      })
     }
-  }
+  }, undefined)
 
-  const handleInputChange = (field: keyof ClothesFormData, value: string | boolean) => {
-    setFormData(prev => ({ ...prev, [field]: value }))
-    // Clear error when user starts typing
-    if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: '' }))
-    }
-  }
+  const [form, fields] = useForm({
+    lastResult,
+    onValidate({ formData }) {
+      return parseWithZod(formData, { schema: clothesSchema })
+    },
+    shouldValidate: 'onBlur',
+    shouldRevalidate: 'onInput',
+    defaultValue: initialData,
+  })
 
   return (
     <Card className="w-full max-w-2xl mx-auto">
       <CardHeader>
-        <CardTitle>{mode === 'edit' ? 'Edit Clothes Item' : 'Add New Clothes Item'}</CardTitle>
+        <CardTitle>{mode === 'edit' ? '洋服編集' : '洋服登録'}</CardTitle>
         <CardDescription>
-          {mode === 'edit' ? 'Update the clothes item details' : 'Fill in the details for your new clothes item'}
+          {mode === 'edit' ? '洋服の詳細を更新してください' : '新しい洋服の詳細を入力してください'}
         </CardDescription>
       </CardHeader>
       
-      <form onSubmit={handleSubmit}>
+      <form id={form.id} onSubmit={form.onSubmit} action={action} noValidate>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="name">Name *</Label>
+              <Label htmlFor={fields.name.id}>商品名 *</Label>
               <Input
-                id="name"
-                value={formData.name}
-                onChange={(e) => handleInputChange('name', e.target.value)}
-                placeholder="T-shirt, Jeans, etc."
-                className={errors.name ? 'border-red-500' : ''}
+                key={fields.name.key}
+                id={fields.name.id}
+                name={fields.name.name}
+                defaultValue={fields.name.initialValue}
+                placeholder="Tシャツ、ジーンズなど"
+                className={fields.name.errors ? 'border-red-500' : ''}
+                disabled={isPending}
               />
-              {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
+              {fields.name.errors && (
+                <p className="text-sm text-red-500">{fields.name.errors[0]}</p>
+              )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="brand">Brand *</Label>
+              <Label htmlFor={fields.brand.id}>ブランド *</Label>
               <Input
-                id="brand"
-                value={formData.brand}
-                onChange={(e) => handleInputChange('brand', e.target.value)}
-                placeholder="Nike, Adidas, etc."
-                className={errors.brand ? 'border-red-500' : ''}
+                key={fields.brand.key}
+                id={fields.brand.id}
+                name={fields.brand.name}
+                defaultValue={fields.brand.initialValue}
+                placeholder="ナイキ、アディダスなど"
+                className={fields.brand.errors ? 'border-red-500' : ''}
+                disabled={isPending}
               />
-              {errors.brand && <p className="text-sm text-red-500">{errors.brand}</p>}
+              {fields.brand.errors && (
+                <p className="text-sm text-red-500">{fields.brand.errors[0]}</p>
+              )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="category">Category *</Label>
+              <Label htmlFor={fields.category.id}>カテゴリ *</Label>
               <Input
-                id="category"
-                value={formData.category}
-                onChange={(e) => handleInputChange('category', e.target.value)}
-                placeholder="Tops, Bottoms, Shoes, etc."
-                className={errors.category ? 'border-red-500' : ''}
+                key={fields.category.key}
+                id={fields.category.id}
+                name={fields.category.name}
+                defaultValue={fields.category.initialValue}
+                placeholder="トップス、ボトムス、シューズなど"
+                className={fields.category.errors ? 'border-red-500' : ''}
+                disabled={isPending}
               />
-              {errors.category && <p className="text-sm text-red-500">{errors.category}</p>}
+              {fields.category.errors && (
+                <p className="text-sm text-red-500">{fields.category.errors[0]}</p>
+              )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="size">Size *</Label>
+              <Label htmlFor={fields.size.id}>サイズ *</Label>
               <Input
-                id="size"
-                value={formData.size}
-                onChange={(e) => handleInputChange('size', e.target.value)}
-                placeholder="S, M, L, XL, etc."
-                className={errors.size ? 'border-red-500' : ''}
+                key={fields.size.key}
+                id={fields.size.id}
+                name={fields.size.name}
+                defaultValue={fields.size.initialValue}
+                placeholder="S、M、L、XLなど"
+                className={fields.size.errors ? 'border-red-500' : ''}
+                disabled={isPending}
               />
-              {errors.size && <p className="text-sm text-red-500">{errors.size}</p>}
+              {fields.size.errors && (
+                <p className="text-sm text-red-500">{fields.size.errors[0]}</p>
+              )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="color">Color *</Label>
+              <Label htmlFor={fields.color.id}>色 *</Label>
               <Input
-                id="color"
-                value={formData.color}
-                onChange={(e) => handleInputChange('color', e.target.value)}
-                placeholder="Red, Blue, Black, etc."
-                className={errors.color ? 'border-red-500' : ''}
+                key={fields.color.key}
+                id={fields.color.id}
+                name={fields.color.name}
+                defaultValue={fields.color.initialValue}
+                placeholder="赤、青、黒など"
+                className={fields.color.errors ? 'border-red-500' : ''}
+                disabled={isPending}
               />
-              {errors.color && <p className="text-sm text-red-500">{errors.color}</p>}
+              {fields.color.errors && (
+                <p className="text-sm text-red-500">{fields.color.errors[0]}</p>
+              )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="material">Material</Label>
+              <Label htmlFor={fields.material.id}>素材</Label>
               <Input
-                id="material"
-                value={formData.material}
-                onChange={(e) => handleInputChange('material', e.target.value)}
-                placeholder="Cotton, Polyester, etc."
+                key={fields.material.key}
+                id={fields.material.id}
+                name={fields.material.name}
+                defaultValue={fields.material.initialValue}
+                placeholder="コットン、ポリエステルなど"
+                disabled={isPending}
               />
+              {fields.material.errors && (
+                <p className="text-sm text-red-500">{fields.material.errors[0]}</p>
+              )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="price">Price *</Label>
+              <Label htmlFor={fields.price.id}>価格</Label>
               <Input
-                id="price"
+                key={fields.price.key}
+                id={fields.price.id}
+                name={fields.price.name}
                 type="number"
                 step="0.01"
                 min="0"
-                value={formData.price}
-                onChange={(e) => handleInputChange('price', e.target.value)}
-                placeholder="29.99"
-                className={errors.price ? 'border-red-500' : ''}
+                defaultValue={fields.price.initialValue}
+                placeholder="2999"
+                className={fields.price.errors ? 'border-red-500' : ''}
+                disabled={isPending}
               />
-              {errors.price && <p className="text-sm text-red-500">{errors.price}</p>}
+              {fields.price.errors && (
+                <p className="text-sm text-red-500">{fields.price.errors[0]}</p>
+              )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="stockQuantity">Stock Quantity *</Label>
+              <Label htmlFor={fields.stock.id}>在庫数</Label>
               <Input
-                id="stockQuantity"
+                key={fields.stock.key}
+                id={fields.stock.id}
+                name={fields.stock.name}
                 type="number"
                 min="0"
-                value={formData.stockQuantity}
-                onChange={(e) => handleInputChange('stockQuantity', e.target.value)}
+                defaultValue={fields.stock.initialValue}
                 placeholder="1"
-                className={errors.stockQuantity ? 'border-red-500' : ''}
+                className={fields.stock.errors ? 'border-red-500' : ''}
+                disabled={isPending}
               />
-              {errors.stockQuantity && <p className="text-sm text-red-500">{errors.stockQuantity}</p>}
+              {fields.stock.errors && (
+                <p className="text-sm text-red-500">{fields.stock.errors[0]}</p>
+              )}
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
-            <Input
-              id="description"
-              value={formData.description}
-              onChange={(e) => handleInputChange('description', e.target.value)}
-              placeholder="Optional description..."
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="imageUrl">Image URL</Label>
-            <Input
-              id="imageUrl"
-              type="url"
-              value={formData.imageUrl}
-              onChange={(e) => handleInputChange('imageUrl', e.target.value)}
-              placeholder="https://example.com/image.jpg"
-            />
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              id="inStock"
-              checked={formData.inStock}
-              onChange={(e) => handleInputChange('inStock', e.target.checked)}
-              className="h-4 w-4"
-            />
-            <Label htmlFor="inStock">In Stock</Label>
-          </div>
-
-          {errors.submit && (
+          {form.errors && (
             <div className="text-sm text-red-500 bg-red-50 p-2 rounded">
-              {errors.submit}
+              {form.errors[0]}
             </div>
           )}
         </CardContent>
@@ -300,10 +253,10 @@ export function ClothesForm({
         <CardFooter>
           <Button 
             type="submit" 
-            disabled={isSubmitting}
+            disabled={isPending}
             className="w-full"
           >
-            {isSubmitting ? (mode === 'edit' ? 'Updating...' : 'Creating...') : (mode === 'edit' ? 'Update Clothes Item' : 'Create Clothes Item')}
+            {isPending ? (mode === 'edit' ? '更新中...' : '作成中...') : (mode === 'edit' ? '洋服を更新' : '洋服を登録')}
           </Button>
         </CardFooter>
       </form>
